@@ -10,9 +10,10 @@ class Conta
  
  public $idconta;
  public $saldo;
- public $saldoReceber;
+ public $saldoSaque;
  public $saldoBloqueado;
  public $cliente_idcliente;
+ public $cliente_usuario_idusuario;
  
 
 }

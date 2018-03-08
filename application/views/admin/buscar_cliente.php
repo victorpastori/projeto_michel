@@ -5,11 +5,11 @@
 	<div class="form-group">
 	    <label for="selectCliente">Cliente</label>
 	    <select class="form-control" id="selectCliente" name="cliente">
-		    <option>1</option>
-		    <option>2</option>
-		    <option>3</option>
-		    <option>4</option>
-		    <option>5</option>
+	    	<?php foreach ($clientes as $cliente) : ?>
+		
+				<option value="<?= $cliente['idcliente'] ?>"><?= $cliente['nome'] ?></option>
+
+			<?php endforeach ?>	
 	    </select>
   	</div>
 

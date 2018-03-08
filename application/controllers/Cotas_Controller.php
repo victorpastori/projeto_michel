@@ -5,6 +5,8 @@ class Cotas_Controller extends My_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('Conta_model');		
+		$this->load->model('Cota_model');
 		$this->load->library('Cota');
 	}
 
@@ -13,15 +15,16 @@ class Cotas_Controller extends My_Controller {
 	}
 
 	public function cadastrarCota(){
-		$conta = $this->Conta_model->getIdConta($idusuario);
+		$idcliente = $this->input->post('cliente');
+		$idconta = $this->Conta_model->getIdContaByCliente($idcliente);
 		$cota = new Cota();
 		$cota->valor = $this->input->post('valor');
-		$cota->dataCompra = $this->input->post('dataCompra');
+		$cota->dataCompra = date("Y-m-d");
 		$cota->dataFechamento = $this->input->post('dataFechamento');
 		$cota->rendimento = $this->input->post('rendimento');
-		$cota->conta_idconta = $idconta;
+		$cota->conta_idconta = $idconta['idconta'];
 		$this->Cota_model->cadastrarCota($cota);
-		redirect('');
+		redirect('Admin_Controller/cotas');
 	}
 
 }

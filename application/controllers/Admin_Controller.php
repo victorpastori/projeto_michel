@@ -5,6 +5,12 @@ class Admin_Controller extends My_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('Cliente_model');
+		$this->load->model('Cota_model');
+		$this->load->model('Conta_model');
+		$this->load->model('Movimento_model');
+		$this->load->model('Investimento_model');
+		$this->load->model('Rendimento_model');
 	}
 
 	public function da(){
@@ -12,27 +18,50 @@ class Admin_Controller extends My_Controller {
 	}
 
 	public function index(){
-		$saldos;
-		$rendimentos;
-		$saques;
-		$this->load->view('welcome_message');
+		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
+
+		$capitalTotal = $this->Conta_model->getTotalCapital();
+		$capitalTotalAdmin = $this->Conta_model->getTotalCapitalAdmin($idusuario);
+		$totalInvestimento = $this->Investimento_model->getTotalInvestimentos();
+		$totalInvestimentoAdmin = $this->Investimento_model->getTotalInvestimentosAdmin($idusuario);
+
+		$capitalTotal = $capitalTotal['saldo']+$capitalTotal['saldoBloqueado']+$totalInvestimento['total'];
+		$capitalTotalAdmin = $capitalTotalAdmin['saldo']+$capitalTotalAdmin['saldoBloqueado']+$totalInvestimentoAdmin['total'];
+		
+		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
+
+		$cotas = $this->Cota_model->getMyCotas($idusuario);
+
+		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
+		$rendimentoClientes;
+		$rendimentoTotal;
+		$lucroTotalEmpresa;
+		
+		$comissoes;
+		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos);
+		$this->load->view('admin/index.php', $dados);
 	}
 
 	public function deposito(){
-		$this->load->view('admin/deposito');
+		$clientes = $this->Cliente_model->getClientes();
+		$dados = array('clientes' => $clientes);
+		$this->load->view('admin/deposito', $dados);
 	}
 
 	public function clientes(){
 		$clientes = $this->Cliente_model->getClientes();
-		$this->load->view('admin/clientes');
+		$dados = array('clientes' => $clientes);
+		$this->load->view('admin/clientes', $dados);
 	}
 
 	public function novoCliente(){
-		$this->load->view('admin/novoCliente');
+		$this->load->view('admin/novo_cliente');
 	}
 
 	public function buscarCliente(){
-		$this->load->view('admin/buscarCliente');
+		$clientes = $this->Cliente_model->getClientes();
+		$dados = array('clientes' => $clientes);
+		$this->load->view('admin/buscar_cliente', $dados);
 	}
 
 	public function mostrarCliente(){
@@ -41,20 +70,28 @@ class Admin_Controller extends My_Controller {
 		$cotas;
 		$rendimentos;
 		$movimentos;
-		$this->load->view('admin/buscarCliente');
+		$this->load->view('admin/perfil_cliente');
 	}
 
 	public function novaCota(){
-		$cotas = $this->Cota_model->getCotas();
-		$this->load->view('admin/novaCota');
+		$clientes = $this->Cliente_model->getClientes();
+		$dados = array('clientes' => $clientes);
+		$this->load->view('admin/nova_cota', $dados);
 	}
 
 	public function cotas(){
 		$cotas = $this->Cota_model->getCotas();
-		$this->load->view('admin/cotas');
+		$dados = array('cotas' => $cotas);
+		$this->load->view('admin/cotas', $dados);
+	}
+
+	public function minhasCotas(){
+		$cotas = $this->Cota_model->getMyCotas($this->session->userdata('usuario_logado')['idusuario']);
+		$dados = array('cotas' => $cotas);
+		$this->load->view('admin/cotas', $dados);
 	}
 
 	public function novoRendimento(){
-		$this->load->view('admin/novoRendimento');
+		$this->load->view('admin/novo_rendimento');
 	}
 }

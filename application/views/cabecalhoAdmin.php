@@ -9,29 +9,30 @@
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a class="navbar-brand" href="#">SCC</a>
+	  <a class="navbar-brand" href="<?= base_url("index.php/Admin_Controller")?>">SCC</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
 	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
 	    <ul class="navbar-nav">
 	      <li class="nav-item active">
-	        <a class="nav-link" href="#">Saque <span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="">Saque <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li class="nav-item active">
-	        <a class="nav-link" href="#">Depósito <span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="<?= base_url("index.php/Admin_Controller/deposito")?>">Depósito <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">Minha Conta</a>
+	        <a class="nav-link" href="<?= base_url("index.php/Admin_Controller/minhaConta")?>">Minha Conta</a>
 	      </li>
 	      <li class="nav-item dropdown">
 	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	          Cotas
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	          <a class="dropdown-item" href="#">Listar Cotas</a>
-	          <a class="dropdown-item" href="#">Minhas Cliente</a>
-	          <a class="dropdown-item" href="#">Cadastrar Cota</a>
+	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/cotas")?>">Listar Cotas</a>
+	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/novaCota")?>">Cadastrar Cota</a>
+	          <div class="dropdown-divider"></div>
+	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/minhasCotas")?>">Minhas Cotas</a>
 	        </div>
 	      </li>
 	      <li class="nav-item dropdown">
@@ -39,10 +40,15 @@
 	          Clientes
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	          <a class="dropdown-item" href="#">Listar Clientes</a>
-	          <a class="dropdown-item" href="#">Cadastrar Cliente</a>
-	          <a class="dropdown-item" href="#">Buscar Cliente</a>
+	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/clientes")?>">Listar Clientes</a>
+	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/novoCliente")?>">Cadastrar Cliente</a>
+	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/buscarCliente")?>">Buscar Cliente</a>
+	          <div class="dropdown-divider"></div>
+	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/novoRendimento")?>">Cadastrar Rendimento</a>	
 	        </div>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="<?= base_url("index.php/Usuarios_Controller/logout")?>">Sair</a>
 	      </li>
 	    </ul>
 	  </div>

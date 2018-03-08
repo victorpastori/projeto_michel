@@ -8,18 +8,16 @@
     <title></title>
 </head>
 <body class="text-center">
-    <form class="form-signin">
+
+  <?php $this->session->flashdata('danger'); ?>
+    <form class="form-signin" action="<?= base_url("index.php/Usuarios_Controller/autenticar")?>" method="post">
       <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
       <label for="inputEmail" class="sr-only">Email</label>
       <input type="email" id="inputEmail" name="login" class="form-control" placeholder="Email" required="" autofocus="">
       <label for="inputPassword" class="sr-only">Senha</label>
       <input type="password" id="inputSenha" name="senha" class="form-control" placeholder="Senha" required="">
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div>
+      
       <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
       <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
     </form>

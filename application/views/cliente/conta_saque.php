@@ -1,14 +1,14 @@
 <?php $this->load->view('cabecalhoCliente'); ?>
 
-<form action="#" method="post">
+<form action="<?= base_url("index.php/Clientes_Controller/cadastrarContaSaque")?>" method="post">
 	<div class="form-group">
 	    <label for="selectBanco">Banco</label>
 	    <select class="form-control" id="selectBanco" name="banco">
-		    <option>1</option>
-		    <option>2</option>
-		    <option>3</option>
-		    <option>4</option>
-		    <option>5</option>
+		    <?php foreach ($bancos as $banco) : ?>
+		
+				<option value="<?= $banco['idbanco'] ?>"><?= $banco['codigo'] ?> - <?= $banco['nome'] ?></option>
+
+			<?php endforeach ?>
 	    </select>
   	</div>
 	<div class="form-group">
@@ -17,15 +17,15 @@
     	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   	</div>
   	<div class="form-group">
-		<label for="inputValor">Conta</label>
-    	<input type="number" class="form-control" name="conta" id="inputValor" aria-describedby="emailHelp" placeholder="Informe o número de sua conta">
+		<label for="inputConta">Conta</label>
+    	<input type="text" class="form-control" name="conta" id="inputConta" aria-describedby="emailHelp" placeholder="Informe o número de sua conta">
     	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   	</div>
   	<div class="form-group">
 	    <label for="selectTipo">Tipo</label>
 	    <select class="form-control" id="selectTipo" name="tipo">
-		    <option>Corrente</option>
-		    <option>Poupança</option>
+		    <option value="1">Corrente</option>
+		    <option value="2">Poupança</option>
 	    </select>
   	</div>
   	<button type="submit" class="btn btn-primary">Cadastrar Conta Saque</button>

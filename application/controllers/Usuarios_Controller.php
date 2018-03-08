@@ -1,15 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuarios_Controller extends CI_Controller {
+class Usuarios_Controller extends My_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->load->model('Usuario_model');
 	}
 
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->view('public/index');
 	}
 
 	public function cadastrarUsuario(){
@@ -22,18 +23,23 @@ class Usuarios_Controller extends CI_Controller {
 	}
 
 	public function autenticar(){
-		$email = $this->input->post('email');
+		$login = $this->input->post('login');
 		$senha = md5($this->input->post('senha'));
 
-		$usuario = $this->Usuario_model->buscaUsuarioLogin($email, $senha);
+		$usuario = $this->Usuario_model->buscaUsuarioLogin($login, $senha);
+		var_dump($usuario);
 		if ($usuario) {
 			$this->session->set_userdata('usuario_logado', $usuario);
 			$this->session->set_flashdata('success', 'Logado com sucesso!');
 		}else{
 			$this->session->set_flashdata('danger', 'Usuário ou senha inválidos!');
+			redirect('/');
 		}
-
-		redirect('/');
+		if ($this->session->userdata('usuario_logado')['tipo'] == 1) {
+				redirect('Admin_Controller/index');
+		}else {
+				redirect('Clientes_Controller/index');
+		}
 	}
 
 	public function logout(){

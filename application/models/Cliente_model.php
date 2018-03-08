@@ -5,21 +5,29 @@ class Cliente_model extends CI_Model {
 
 		public function cadastrarCliente($cliente){
 			$this->db->insert('cliente', $cliente);
+			return $this->db->insert_id();
 		}
 
 		public function getClientes(){
 			$this->db->select('idcliente, nome, saldo');
 			$this->db->from('cliente');
 			$this->db->join('conta', 'idcliente = cliente_idcliente');
-			return $this->db->get()->resul_array();
+			return $this->db->get()->result_array();
 		}
 
 		public function getCliente($idcliente){
-			$this->db->select('nome, saldo');
+			$this->db->select('idcliente, nome, email, saldo');
 			$this->db->from('cliente');
 			$this->db->join('conta', 'idcliente = cliente_idcliente');
-			$this->db->where('idcliente', $idcliente)
-			return $this->db->get()->resul_array();
+			$this->db->where('idcliente', $idcliente);
+			return $this->db->get()->row_array();
+		}
+
+		public function getClienteByUser($idusuario){
+			$this->db->select('*');
+			$this->db->from('cliente');
+			$this->db->where('usuario_idusuario', $idusuario);
+			return $this->db->get()->row_array();
 		}
 		
 }
