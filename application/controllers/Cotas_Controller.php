@@ -15,6 +15,7 @@ class Cotas_Controller extends My_Controller {
 	}
 
 	public function cadastrarCota(){
+		$this->isAdmin();
 		$idcliente = $this->input->post('cliente');
 		$idconta = $this->Conta_model->getIdContaByCliente($idcliente);
 		$cota = new Cota();
@@ -25,6 +26,15 @@ class Cotas_Controller extends My_Controller {
 		$cota->conta_idconta = $idconta['idconta'];
 		$this->Cota_model->cadastrarCota($cota);
 		redirect('Admin_Controller/cotas');
+	}
+
+	public function isAdmin()
+	{
+		# code...
+		if ($this->session->userdata('usuario_logado')['tipo'] == 2) {
+			# code...
+			redirect('Clientes_Controller/index');
+		}
 	}
 
 }

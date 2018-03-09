@@ -1,6 +1,6 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
 
-<form action="#" method="post">
+<form action="<?= base_url("index.php/Admin_Controller/mostrarCliente")?>" method="post">
 
 	<div class="form-group">
 	    <label for="selectCliente">Cliente</label>

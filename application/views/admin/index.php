@@ -1,7 +1,7 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
 
 Capital total: US$ <?= $capitalTotal ?> <br>
-Capital total empresa: US$ <?= $capitalTotalAdmin ?><br>
+Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
 
 <?php if ($movimentos) { ?>
 		Movimentos<br>
@@ -22,6 +22,13 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br>
 		Rendimenos<br>
 	<?php foreach ($rendimentos as $rendimento) : ?>
 		<p> US$ <?= $rendimento['total']?> --- <?= $rendimento['month']?>/<?= $rendimento['year']?></p>	
+	<?php endforeach ?>
+<?php } ?>
+
+<?php if ($rendimentosClientes) { ?>
+		Rendimenos Clientes<br>
+	<?php foreach ($rendimentosClientes as $rendimentoCliente) : ?>
+		<p> US$ <?= $rendimentoCliente['total']?> --- <?= $rendimentoCliente['month']?>/<?= $rendimentoCliente['year']?></p>	
 	<?php endforeach ?>
 <?php } ?>
 

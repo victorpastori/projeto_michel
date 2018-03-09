@@ -16,13 +16,13 @@
 	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
 	    <ul class="navbar-nav">
 	      <li class="nav-item active">
-	        <a class="nav-link" href="">Saque <span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="<?= base_url("index.php/Clientes_Controller/saque")?>">Saque <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li class="nav-item active">
 	        <a class="nav-link" href="<?= base_url("index.php/Admin_Controller/deposito")?>">Depósito <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="<?= base_url("index.php/Admin_Controller/minhaConta")?>">Minha Conta</a>
+	        <a class="nav-link" href="<?= base_url("index.php/Clientes_Controller/minhaConta")?>">Minha Conta</a>
 	      </li>
 	      <li class="nav-item dropdown">
 	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,6 +46,9 @@
 	          <div class="dropdown-divider"></div>
 	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/novoRendimento")?>">Cadastrar Rendimento</a>	
 	        </div>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="<?= base_url("index.php/Admin_Controller/sistema")?>">Sistema</a>
 	      </li>
 	      <li class="nav-item">
 	        <a class="nav-link" href="<?= base_url("index.php/Usuarios_Controller/logout")?>">Sair</a>

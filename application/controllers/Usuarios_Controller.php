@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuarios_Controller extends My_Controller {
+class Usuarios_Controller extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();

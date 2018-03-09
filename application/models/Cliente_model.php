@@ -16,7 +16,7 @@ class Cliente_model extends CI_Model {
 		}
 
 		public function getCliente($idcliente){
-			$this->db->select('idcliente, nome, email, saldo');
+			$this->db->select('idcliente, nome, email, saldo, usuario_idusuario');
 			$this->db->from('cliente');
 			$this->db->join('conta', 'idcliente = cliente_idcliente');
 			$this->db->where('idcliente', $idcliente);

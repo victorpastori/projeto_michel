@@ -30,6 +30,7 @@ class Clientes_Controller extends My_Controller {
 	}
 
 	public function cadastrarCliente(){
+		$this->isAdmin();
 		$usuario = new Usuario();
 		$usuario->login = $this->input->post('email');
 		$usuario->senha = md5($this->input->post('senha'));
@@ -45,6 +46,7 @@ class Clientes_Controller extends My_Controller {
 	}
 
 	public function cadastrarContaCliente($idcliente, $idusuario){
+		$this->isAdmin();
 		$conta = new Conta();
 		$conta->saldo = 0;
 		$conta->saldoSaque = 0;
@@ -109,5 +111,14 @@ class Clientes_Controller extends My_Controller {
 		$senha = $this->input->post('senha');
 		$this->Usuario_model->updateSenha($senha);
 		redirect(base_url("Clientes_Controller/minha_conta"));
+	}
+
+	public function isAdmin()
+	{
+		# code...
+		if ($this->session->userdata('usuario_logado')['tipo'] == 2) {
+			# code...
+			redirect('Clientes_Controller/index');
+		}
 	}
 }

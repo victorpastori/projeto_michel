@@ -35,7 +35,7 @@ class Investimento_model extends CI_Model {
 		public function getTotalInvestimentosAdmin($idusuario)
 		{
 			# code...
-			$this->db->select('saldo, saldoBloqueado');
+			$this->db->select('SUM(valor) as total');
 			$this->db->from('investimento');
 			$this->db->join('conta', 'conta_idconta = idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);

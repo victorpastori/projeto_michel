@@ -40,6 +40,7 @@ class Contas_Controller extends My_Controller {
 	}
 
 	public function realizarDeposito(){
+		$this->isAdmin();
 		$idcliente = $this->input->post('cliente');
 		$idconta = $this->Conta_model->getIdContaByCliente($idcliente);
 		var_dump($idconta);
@@ -56,6 +57,7 @@ class Contas_Controller extends My_Controller {
 	}
 
 	public function cadastrarInvestimento($valor, $carencia, $data, $idconta){
+		$this->isAdmin();
 		$investimento = new Investimento();
 		$investimento->valor = $valor;
 		$investimento->data = $data;
@@ -68,6 +70,7 @@ class Contas_Controller extends My_Controller {
 
 	// criar funcao exclusiva para admin que nao desconte 25% da tx adm
 	public function cadastrarRendimentos(){
+		$this->isAdmin();
 		$txAdm = 25;
 		$rendimentos = array();
 		$ren = $this->input->post('rendimento');
@@ -102,6 +105,7 @@ class Contas_Controller extends My_Controller {
 	}
 
 	public function aplicarRendimentos($rendimento){
+		$this->isAdmin();
 		$this->Conta_model->aplicarRendimento($rendimento);
 		$this->Investimento_model->aplicarRendimento($rendimento);
 	}
@@ -113,13 +117,24 @@ class Contas_Controller extends My_Controller {
 	public function getTotalCapitalAdmin()// INCLUE SALDO, INVESTIMENTOS E COTAS SEM RENDIMENTO
 	{
 		# code...
+		$this->isAdmin();
 		$this->Conta_model->getTotalCapitalAdmin();
 	}
 
 	public function getTotalCapital()// INCLUE SALDO, INVESTIMENTOS E COTAS SEM RENDIMENTO
 	{
 		# code...
+		$this->isAdmin();
 		$this->Conta_model->getTotalCapital();
+	}
+
+	public function isAdmin()
+	{
+		# code...
+		if ($this->session->userdata('usuario_logado')['tipo'] == 2) {
+			# code...
+			redirect('Clientes_Controller/index');
+		}
 	}
 
 }

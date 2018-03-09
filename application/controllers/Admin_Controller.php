@@ -5,12 +5,14 @@ class Admin_Controller extends My_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->isAdmin();
 		$this->load->model('Cliente_model');
 		$this->load->model('Cota_model');
 		$this->load->model('Conta_model');
 		$this->load->model('Movimento_model');
 		$this->load->model('Investimento_model');
 		$this->load->model('Rendimento_model');
+		$this->load->model('Sistema_model');
 	}
 
 	public function da(){
@@ -33,12 +35,12 @@ class Admin_Controller extends My_Controller {
 		$cotas = $this->Cota_model->getMyCotas($idusuario);
 
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
-		$rendimentoClientes;
+		$rendimentosClientes = $this->Rendimento_model->getRendimentosNoAdmin($idusuario);
 		$rendimentoTotal;
 		$lucroTotalEmpresa;
 		
 		$comissoes;
-		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos);
+		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes);
 		$this->load->view('admin/index.php', $dados);
 	}
 
@@ -65,12 +67,15 @@ class Admin_Controller extends My_Controller {
 	}
 
 	public function mostrarCliente(){
-		$cliente;
-		$saldos;
-		$cotas;
-		$rendimentos;
-		$movimentos;
-		$this->load->view('admin/perfil_cliente');
+		$idcliente = $this->input->post('cliente');
+		$cliente = $this->Cliente_model->getCliente($idcliente);
+		$idusuario = $cliente['usuario_idusuario'];
+		$saldos = $this->Conta_model->getConta($idusuario);
+		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
+		$cotas = $this->Cota_model->getMyCotas($idusuario);
+		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
+		$dados = array('cliente' => $cliente, 'saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos);
+		$this->load->view('admin/perfil_cliente', $dados);
 	}
 
 	public function novaCota(){
@@ -93,5 +98,21 @@ class Admin_Controller extends My_Controller {
 
 	public function novoRendimento(){
 		$this->load->view('admin/novo_rendimento');
+	}
+
+	public function sistema()
+	{
+		# code...
+		$sistema = $this->Sistema_model->getDadosSistema();
+		$this->load->view('admin/sistema', $sistema);
+	}
+
+	public function isAdmin()
+	{
+		# code...
+		if ($this->session->userdata('usuario_logado')['tipo'] == 2) {
+			# code...
+			redirect('Clientes_Controller/index');
+		}
 	}
 }

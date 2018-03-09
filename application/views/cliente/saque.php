@@ -1,4 +1,8 @@
-<?php $this->load->view('cabecalhoCliente'); ?>
+<?php if ($this->session->userdata('usuario_logado')['tipo'] == 2) {
+      $this->load->view('cabecalhoCliente');
+    } else if ($this->session->userdata('usuario_logado')['tipo'] == 1){
+      $this->load->view('cabecalhoAdmin');
+    } ?>
 
 <form action="<?=base_url("index.php/Contas_Controller/solicitarSaque")?>" method="post">
 	<div class="form-group">
