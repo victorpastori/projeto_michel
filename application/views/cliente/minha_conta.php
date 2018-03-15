@@ -4,7 +4,7 @@
       $this->load->view('cabecalhoAdmin');
     } ?>
 
-<form action="<?=base_url("index.php/Clientes_Controller/updateSenha")?>" method="post">
+<form action="<?=base_url("index.php/Clientes_Controller/updateDados")?>" method="post">
 	<div class="form-group">
 		<label for="inputNome">Nome</label>
     	<input type="text" class="form-control" name="nome" id="inputNome" aria-describedby="emailHelp" required value="<?= $cliente['nome']?>" disabled>
@@ -24,7 +24,7 @@
 <?php if (!$contaSaque) { ?>
   <a href="<?=base_url("index.php/Clientes_Controller/contaSaque")?>" class="btn btn-primary">Cadastrar Conta Saque</a>
 <?php } else { ?>
-<form action="#" method="post">
+<form action="<?=base_url("index.php/Clientes_Controller/updateContaSaque")?>" method="post">
   <div class="form-group">
       <label for="selectBanco">Banco</label>
       <select class="form-control" id="selectBanco" name="banco" required disabled>

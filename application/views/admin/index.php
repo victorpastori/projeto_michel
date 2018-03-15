@@ -1,11 +1,20 @@
-<?php $this->load->view('cabecalhoAdmin'); ?>
 
-Capital total: US$ <?= $capitalTotal ?> <br>
-Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
+<?php $this->load->view('cabecalhoAdmin'); ?>
+<br>
+
+<div class="container">
+	<div class="row">
+		<div class="col-xl-5"></div>
+		<div class="alert alert-primary col-sm"><p>Capital total:</p> US$ <?= number_format($capitalTotal, 2)?></div>
+		<div class="alert alert-info col-sm"><p>Capital empresa:</p> US$ <?= number_format($capitalTotalAdmin, 2) ?></div>
+		<div class="alert alert-success col-sm"><p>Saldo Saque:</p> US$ <?= number_format($capitalTotalAdmin,2) ?></div>
+	</div>
+</div>
 
 <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Movimentos</a>
+  	<a class="nav-item nav-link active" id="nav-saques-tab" data-toggle="tab" href="#nav-saques" role="tab" aria-controls="nav-saques" aria-selected="true">Saques Pendentes</a>
+    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Movimentos</a>
     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Cotas</a>
     <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Rendimentos</a>
     <a class="nav-item nav-link" id="nav-rend-cli-tab" data-toggle="tab" href="#nav-rend-cli" role="tab" aria-controls="nav-rend-cli" aria-selected="false">Rendimentos Clientes</a>
@@ -15,11 +24,19 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
   </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+	<div class="tab-pane fade show active" id="nav-saques" role="tabpanel" aria-labelledby="nav-saques-tab">
+  	<?php if ($saquesPendentes) { ?>
+			Saques Pendentes<br>
+		<?php foreach ($saquesPendentes as $saquePendente) : ?>
+			<p><?= $saquePendente['nome']?> --- <?= $saquePendente['tipo']?> --- US$ <?= number_format($saquePendente['valor'],2)?> --- <?= $saquePendente['data']?> <a href="<?= base_url("index.php/Clientes_Controller/alterarSenha")?>" class="btn btn-success">Atualizar Status</a> </p>
+		<?php endforeach ?> 
+	<?php } ?>
+  </div>
+  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
   	<?php if ($movimentos) { ?>
 			Movimentos<br>
 		<?php foreach ($movimentos as $movimento) : ?>
-			<p><?= $movimento['tipo']?> --- US$ <?= $movimento['valor']?> --- <?= $movimento['data']?> </p>
+			<p><?= $movimento['tipo']?> --- US$ <?= number_format($movimento['valor'],2)?> --- <?= $movimento['data']?> </p>
 		<?php endforeach ?> 
 	<?php } ?>
   </div>
@@ -27,7 +44,7 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
   	<?php if ($cotas) { ?>
 		Cotas<br>
 		<?php foreach ($cotas as $cota) : ?>
-			<p> <?= $cota['dataCompra']?> - Tamanho da quota: US$ <?= $cota['valor']?> | Rentabilidade: <?= $cota['rendimento']?>% = US$ <?= $cota['valor']*$cota['rendimento']/100;?> (-25%) = <?= ($cota['valor']*$cota['rendimento']/100)*0.75;?> </p>
+			<p> <?= $cota['dataCompra']?> - Tamanho da quota: US$ <?= number_format($cota['valor'],2)?> | Rentabilidade: <?= $cota['rendimento']?>% = US$ <?= number_format(($cota['valor']*$cota['rendimento']/100),2);?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2);?> </p>
 		<?php endforeach ?> 
 	<?php } ?>
   </div>
@@ -35,7 +52,7 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
   	<?php if ($rendimentos) { ?>
 		Rendimentos<br>
 	<?php foreach ($rendimentos as $rendimento) : ?>
-		<p><?= $rendimento['tipo']?> --- <?= $rendimento['percentual']?>% --- US$ <?= $rendimento['total']?>(Descontado taxa ADM) --- <?= $rendimento['month']?>/<?= $rendimento['year']?></p>	
+		<p><?= $rendimento['tipo']?> --- <?= $rendimento['percentual']?>% --- US$ <?= number_format($rendimento['total'],2)?>(Descontado taxa ADM) --- <?= $rendimento['month']?>/<?= $rendimento['year']?></p>	
 	<?php endforeach ?>
 <?php } ?>
   </div>
@@ -43,7 +60,7 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
   	<?php if ($rendimentosClientes) { ?>
 		Rendimenos Clientes<br>
 	<?php foreach ($rendimentosClientes as $rendimentoCliente) : ?>
-		<p> US$ <?= $rendimentoCliente['total']?> --- <?= $rendimentoCliente['month']?>/<?= $rendimentoCliente['year']?></p>	
+		<p> US$ <?= number_format($rendimentoCliente['total'],2)?> --- <?= $rendimentoCliente['month']?>/<?= $rendimentoCliente['year']?></p>	
 	<?php endforeach ?>
 <?php } ?>
   </div>
@@ -51,7 +68,7 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
   	<?php if ($comissoes) { ?>
 		Comissoes<br>
 		<?php foreach ($comissoes as $comissao) : ?>
-			<p> US$ <?= $comissao['total']?> -  <?= $comissao['month']?>/<?= $comissao['year']?> </p>
+			<p> US$ <?= number_format($comissao['total'],2)?> -  <?= $comissao['month']?>/<?= $comissao['year']?> </p>
 		<?php endforeach ?> 
 	<?php } ?>
   </div>
@@ -59,7 +76,7 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
   	<?php if ($comissoes) { ?>
 		Comissoes<br>
 		<?php foreach ($comissoes as $index => $comissao) : ?>
-			<p> US$ <?= $rendimentosAdminMensais[$index]['total']+ $comissao['total']?> -  <?= $comissao['month']?>/<?= $comissao['year']?> </p>
+			<p> US$ <?= number_format(($rendimentosAdminMensais[$index]['total']+ $comissao['total']),2)?> -  <?= $comissao['month']?>/<?= $comissao['year']?> </p>
 		<?php endforeach ?> 
 	<?php } ?>
   </div>
@@ -67,7 +84,7 @@ Capital total empresa: US$ <?= $capitalTotalAdmin ?><br><br>
   	<?php if ($rendimentosBrutos) { ?>
 		Rendimento Bruto<br>
 		<?php foreach ($rendimentosBrutos as $rendimentoBruto) : ?>
-			<p> US$ <?= $rendimentoBruto['total']+$rendimentoBruto['totalComissao']?> --- <?= $rendimentoBruto['month']?>/<?= $rendimentoBruto['year']?></p>
+			<p> US$ <?= number_format(($rendimentoBruto['total']+$rendimentoBruto['totalComissao']),2)?> --- <?= $rendimentoBruto['month']?>/<?= $rendimentoBruto['year']?></p>
 		<?php endforeach ?> 
 	<?php } ?>
   </div>

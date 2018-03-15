@@ -10,7 +10,7 @@ class Sistema
  
  public $idsistema;
  public $valorAdmCota;
- public $valorAdmRendimento;
+ public $valorAdmRend;
  public $diaInicialRendimento;
  public $conta_idconta;
  

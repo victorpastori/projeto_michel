@@ -18,6 +18,7 @@ class Clientes_Controller extends CI_Controller {
 		$this->load->model('Banco_model');
 		$this->load->model('Movimento_model');
 		$this->load->model('Rendimento_model');
+		$this->load->model('Investimento_model');
 	}
 
 	public function isUsuarioLogado(){
@@ -30,10 +31,13 @@ class Clientes_Controller extends CI_Controller {
 	public function index(){
 		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
 		$saldos = $this->Conta_model->getConta($idusuario);
+		$saldoCotas = $this->Cota_model->getSaldoMyCotas($idusuario);
+		$saldoInvestimentos = $this->Investimento_model->getSaldoInvestimentosCliente($idusuario);
+		$investimentos = $this->Investimento_model->getInvestimentosCliente($idusuario);
 		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
 		$cotas = $this->Cota_model->getMyCotas($idusuario);
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
-		$dados = array('saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos);
+		$dados = array('saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos);
 		$this->load->view('cliente/index', $dados);
 	}
 
@@ -107,6 +111,19 @@ class Clientes_Controller extends CI_Controller {
 		
 	}
 
+	public function updateContaSaque()
+	{
+		# code...
+		$cliente = $this->Cliente_model->getClienteByUser($this->session->userdata('usuario_logado')['idusuario']);
+		$contaSaque = new ContaSaque();
+		$contaSaque->banco_idbanco = $this->input->post('banco');
+		$contaSaque->agencia = $this->input->post('agencia');
+		$contaSaque->conta = $this->input->post('conta');
+		$contaSaque->tipo = $this->input->post('tipo');
+		$contaSaque->cliente_idcliente = $cliente['idcliente'];
+		$this->ContaSaque_model->updateContaSaque($contaSaque);
+	}
+
 	public function alterarSenha()
 	{
 		# code...
@@ -116,9 +133,19 @@ class Clientes_Controller extends CI_Controller {
 	public function updateSenha()
 	{
 		# code...
-		$senha = $this->input->post('senha');
-		$this->Usuario_model->updateSenha($senha);
-		redirect(base_url("Clientes_Controller/minha_conta"));
+		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
+		$senha = md5($this->input->post('senha'));
+		$this->Usuario_model->updateSenha($idusuario, $senha);
+		redirect('Clientes_Controller/minhaConta');
+	}
+
+	public function updateDados()
+	{
+		# code...
+		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
+		$email = $this->input->post('email');
+		$nome = $this->input->post('nome');
+		$this->Cliente_model->updateDados($idusuario, $email, $nome);
 	}
 
 	public function isAdmin()

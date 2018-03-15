@@ -14,5 +14,12 @@ class ContaSaque_model extends CI_Model {
 			$this->db->where('cliente_idcliente', $idcliente);
 			return $this->db->get()->row_array();
 		}
+
+		public function updateContaSaque($contaSaque)
+		{
+			# code...
+			$this->db->where('cliente_idcliente', $contaSaque->cliente_idcliente);
+			$this->db->update('contaSaque', $contaSaque);
+		}
 		
 }

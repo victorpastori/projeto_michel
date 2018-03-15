@@ -2,7 +2,7 @@
 
 	<?php foreach ($clientes as $cliente) : ?>
 		
-		<p><?= $cliente['nome'] ?> ---- <?= $cliente['saldoSaque'] ?> </p>
+		<p><?= $cliente['nome'] ?> ---- US$ <?= number_format($cliente['saldoSaque'],2) ?> </p>
 
 	<?php endforeach ?>	
 

@@ -7,8 +7,9 @@ class Usuario_model extends CI_Model {
 			$this->db->insert('usuario', $usuario);
 			return $this->db->insert_id();		}
 
-		public function updateSenha($senha){
-			$this->db->set('senha', $senha, FALSE);
+		public function updateSenha($idusuario, $senha){
+			$this->db->set('senha', $senha);
+			$this->db->where('idusuario', $idusuario);
 			$this->db->update('usuario');
 		}
 

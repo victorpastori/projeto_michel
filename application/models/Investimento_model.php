@@ -21,12 +21,26 @@ class Investimento_model extends CI_Model {
 			$this->db->update('investimento');
 		}
 		
-		public function getInvestimentos(){
-
+		public function getInvestimentos($idusuario){
+			
 		}
 
-		public function getInvestimentosCliente(){
+		public function getInvestimentosCliente($idusuario){
+			$this->db->select('*');
+			$this->db->from('investimento');
+			$this->db->join('conta', 'idconta = conta_idconta');
+			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			$this->db->where('status !=', 2);
+			return $this->db->get()->result_array();
+		}
 
+		public function getSaldoInvestimentosCliente($idusuario){
+			$this->db->select('SUM(valor) as total');
+			$this->db->from('investimento');
+			$this->db->join('conta', 'idconta = conta_idconta');
+			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			$this->db->where('status !=', 2);
+			return $this->db->get()->row_array();
 		}
 
 		public function getInvestimentosAtivos(){

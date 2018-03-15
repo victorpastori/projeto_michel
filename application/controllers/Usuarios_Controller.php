@@ -42,9 +42,22 @@ class Usuarios_Controller extends CI_Controller {
 		}
 	}
 
+	public function alterarSenha(){
+		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
+		$senha = $this->input->post('senha');
+		$this->Usuario_model->updateSenha($idusuario, $senha);
+	}
+
 	public function logout(){
 		$this->session->unset_userdata("usuario_logado");
 		$this->session->set_flashdata('success', 'Deslogado com sucesso!');
 		redirect('/');
+	}
+
+	public function isUsuarioLogado(){
+		if(!$this->session->userdata('usuario_logado')){
+			$this->session->set_flashdata('danger', 'Sua sessão expirou ou você não está logado! Por favor efetue o login!');
+			redirect('/');
+		}
 	}
 }

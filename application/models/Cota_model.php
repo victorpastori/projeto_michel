@@ -24,6 +24,15 @@ class Cota_model extends CI_Model {
 			return $this->db->get()->result_array();
 		}
 
+		public function getSaldoMyCotas($idusuario){
+			$this->db->select('SUM(valor) as total');
+			$this->db->from('cota');
+			$this->db->where('status = 1');
+			$this->db->join('conta', 'idconta = conta_idconta');
+			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			return $this->db->get()->row_array();
+		}
+
 		public function getCotasCliente($idcliente){
 			$this->db->select('nome, valor, dataCompra, dataFechamento, rendimento');
 			$this->db->from('cota');

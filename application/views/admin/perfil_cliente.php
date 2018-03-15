@@ -1,11 +1,16 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
 
 Cliente: <?=$cliente['nome']?><br><br>
+<br>
 
-Conta:<br>
-
-	Saldo: US$ <?= $saldos['saldo'] ?><br>
-	Saldo Saque: US$ <?=$saldos['saldoSaque'] ?> <br><br>
+<div class="container">
+	<div class="row">
+		<div class="col-xl-5"></div>
+		<div class="alert alert-primary col-sm"><p>Saldo em Cotas:</p> US$ <?= number_format($saldoCotas['total'], 2)?></div>
+		<div class="alert alert-info col-sm"><p>Saldo em Investimentos:</p> US$ <?= number_format($saldoInvestimentos['total'], 2) ?></div>
+		<div class="alert alert-success col-sm"><p>Saldo Saque:</p> US$ <?= number_format($saldos['saldoSaque'],2) ?></div>
+	</div>
+</div>
 
 <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -19,7 +24,7 @@ Conta:<br>
   	<?php if ($movimentos) { ?>
 		Movimentos<br>
 	<?php foreach ($movimentos as $movimento) : ?>
-		<p><?= $movimento['tipo']?> --- US$ <?= $movimento['valor']?> --- <?= $movimento['data']?> </p>
+		<p><?= $movimento['tipo']?> --- US$ <?= number_format($movimento['valor'],2)?> --- <?= $movimento['data']?> </p>
 	<?php endforeach ?> 
 <?php } ?>
   </div>
@@ -27,7 +32,7 @@ Conta:<br>
   	<?php if ($cotas) { ?>
 	Cotas<br>
 	<?php foreach ($cotas as $cota) : ?>
-		<p> <?= $cota['dataCompra']?> - Tamanho da quota: US$ <?= $cota['valor']?> | Rentabilidade: <?= $cota['rendimento']?>% = US$ <?= $cota['valor']*$cota['rendimento']/100;?> (-25%) = <?= ($cota['valor']*$cota['rendimento']/100)*0.75;?> </p>
+		<p> <?= $cota['dataCompra']?> - Tamanho da quota: US$ <?= number_format($cota['valor'],2)?> | Rentabilidade: <?= $cota['rendimento']?>% = US$ <?= number_format(($cota['valor']*$cota['rendimento']/100),2);?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2);?> </p>
 	<?php endforeach ?> 
 <?php } ?>
   </div>
@@ -35,10 +40,10 @@ Conta:<br>
   	<?php if ($rendimentos) { ?>
 		Rendimenos<br>
 	<?php foreach ($rendimentos as $rendimento) : ?>
-		<p> US$ <?= $rendimento['total']?> --- <?= $rendimento['month']?>/<?= $rendimento['year']?></p>	
+		<p> US$ <?= number_format($rendimento['total'],2)?> --- <?= $rendimento['month']?>/<?= $rendimento['year']?></p>	
 	<?php endforeach ?>
 <?php } ?>
   </div>
-</div>	
+</div>
 
 <?php $this->load->view('rodape'); ?>

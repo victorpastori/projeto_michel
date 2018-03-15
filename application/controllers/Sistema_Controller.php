@@ -20,4 +20,12 @@ class Sistema_Controller extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+
+	public function updateDados(){
+		$sistema = new Sistema();
+		$sistema->valorAdmCota = $this->input->post('taxaCotas');
+		$sistema->valorAdmRend = $this->input->post('taxaRendimentos');
+		$sistema->diaInicialRendimento = $this->input->post('diaRendimento');
+		$this->Sistema_model->updateDados($sistema);
+	}
 }

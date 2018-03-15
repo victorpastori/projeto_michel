@@ -29,5 +29,14 @@ class Cliente_model extends CI_Model {
 			$this->db->where('usuario_idusuario', $idusuario);
 			return $this->db->get()->row_array();
 		}
+
+		public function updateDados($idusuario, $email, $nome)
+		{
+			# code...
+			$this->db->set('email', $email);
+			$this->db->set('nome', $nome);
+			$this->db->where('usuario_idusuario', $idusuario);
+			$this->db->update('cliente');
+		}
 		
 }

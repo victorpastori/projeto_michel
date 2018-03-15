@@ -29,7 +29,8 @@ class Admin_Controller extends CI_Controller {
 
 	public function index(){
 		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
-
+		// SAQUES SOLICITADOS PELOS CLIENTES AINDA PENDENTES
+		$saquesPendentes = $this->Movimento_model->getSaquesPendentes();
 		// PEGANDO SALDO ADMIN E GERAL(SALDO SAQUE + INVESTIMENTOS + COTAS ATIVAS)
 		$capitalTotal = $this->Conta_model->getTotalCapital();
 		$capitalTotalAdmin = $this->Conta_model->getTotalCapitalAdmin($idusuario);
@@ -52,7 +53,7 @@ class Admin_Controller extends CI_Controller {
 		$comissoes = $this->Comissao_model->getComissoes();
 		//$rendimentosAdminMensais = array_merge($rendimentosAdminMensais, $comissoes);
 		
-		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes, 'comissoes' => $comissoes, 'rendimentosBrutos' => $rendimentosBrutos, 'rendimentosAdminMensais' => $rendimentosAdminMensais);
+		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes, 'comissoes' => $comissoes, 'rendimentosBrutos' => $rendimentosBrutos, 'rendimentosAdminMensais' => $rendimentosAdminMensais, 'saquesPendentes' => $saquesPendentes);
 		$this->load->view('admin/index.php', $dados);
 	}
 
@@ -83,10 +84,12 @@ class Admin_Controller extends CI_Controller {
 		$cliente = $this->Cliente_model->getCliente($idcliente);
 		$idusuario = $cliente['usuario_idusuario'];
 		$saldos = $this->Conta_model->getConta($idusuario);
+		$saldoCotas = $this->Cota_model->getSaldoMyCotas($idusuario);
+		$saldoInvestimentos = $this->Investimento_model->getSaldoInvestimentosCliente($idusuario);
 		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
 		$cotas = $this->Cota_model->getMyCotas($idusuario);
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
-		$dados = array('cliente' => $cliente, 'saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos);
+		$dados = array('cliente' => $cliente, 'saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos);
 		$this->load->view('admin/perfil_cliente', $dados);
 	}
 

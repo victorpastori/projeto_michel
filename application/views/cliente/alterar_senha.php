@@ -4,7 +4,7 @@
       $this->load->view('cabecalhoAdmin');
     } ?>
 
-<form action="#" method="post">
+<form action="<?= base_url("index.php/Clientes_Controller/updateSenha")?>" method="post">
 	<div class="form-group">
 		<label for="inputSenha">Nova Senha</label>
     	<input type="password" class="form-control" name="senha" id="inputSenha" aria-describedby="emailHelp" placeholder="Informe o número de sua agência">

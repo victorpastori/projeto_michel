@@ -1,6 +1,6 @@
 <?php $this->load->view('cabecalhoAdmin');?>
 
-<form action="<?=base_url("index.php/Clientes_Controller/updateSenha")?>" method="post">
+<form action="<?=base_url("index.php/Sistema_controller/updateDados")?>" method="post">
 	<div class="form-group">
 		<label for="inputinputTaxaCotas">Taxa de ADM rendimentos cotas</label>
     	<input type="number" class="form-control" name="taxaCotas" id="inputinputTaxaCotas" aria-describedby="emailHelp" required value="<?= $valorAdmCota?>" disabled>
