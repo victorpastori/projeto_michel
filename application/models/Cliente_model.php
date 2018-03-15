@@ -9,7 +9,7 @@ class Cliente_model extends CI_Model {
 		}
 
 		public function getClientes(){
-			$this->db->select('idcliente, nome, saldo');
+			$this->db->select('idcliente, nome, saldoSaque');
 			$this->db->from('cliente');
 			$this->db->join('conta', 'idcliente = cliente_idcliente');
 			return $this->db->get()->result_array();

@@ -12,6 +12,7 @@ class Rendimento
  public $percentual;
  public $capital;
  public $valor;
+ public $valorBruto;
  public $data;
  public $conta_idconta;
  public $tipo_rendimento_idtipo_rendimento;

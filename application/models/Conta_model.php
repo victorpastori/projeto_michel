@@ -35,24 +35,33 @@ class Conta_model extends CI_Model {
 		public function getContas(){
 			$this->db->select('*');
 			$this->db->from('conta');
+			$this->db->where('saldoSaque >', 0);
 			return $this->db->get()->result_array();
 		}
 
 		public function aplicarRendimento($rendimento){
-			$this->db->set('saldo', "saldo+saldo*$rendimento", FALSE);
+			//$this->db->set('saldo', "saldo+saldo*$rendimento", FALSE); // SALDO TOTAL SERÁ CALCULADO A PARTIR DOS INVESTIMENTOS E COTAS
 			$this->db->set('saldoSaque', "saldoSaque+saldoSaque*$rendimento", FALSE);
+			$this->db->where('idconta !=', 1);
 			$this->db->update('conta');
 		}
 		
-
-		public function updateSaldoDeposito($valor, $idconta){
-			$this->db->set('saldoBloqueado', 'saldoBloqueado+'.$valor, FALSE);
-			$this->db->where('idconta', $idconta);
+		public function aplicarRendimentoAdmin($rendimento){
+			//$this->db->set('saldo', "saldo+saldo*$rendimento", FALSE); // SALDO TOTAL SERÁ CALCULADO A PARTIR DOS INVESTIMENTOS E COTAS
+			$this->db->set('saldoSaque', "saldoSaque+saldoSaque*$rendimento", FALSE);
+			$this->db->where('idconta', 1);
 			$this->db->update('conta');
 		}
 
+		// ADICIONA VALOR DO DÉPÓSITADO AO SALDO BLOQUEADO (OBSOLETO)
+		/*public function updateSaldoDeposito($valor, $idconta){
+			$this->db->set('saldoBloqueado', 'saldoBloqueado+'.$valor, FALSE);
+			$this->db->where('idconta', $idconta);
+			$this->db->update('conta');
+		}*/
+
 		public function updateSaldoSaque($valor, $idconta){
-			$this->db->set('saldo', 'saldo-'.$valor, FALSE);
+			//$this->db->set('saldo', 'saldo-'.$valor, FALSE); // SALDO DEIXA DE SER USADO -- SALDO TOTAL SERÁ CALCULADO A PARTIR DOS INVESTIMENTOS E COTAS
 			$this->db->set('saldoSaque', 'saldoSaque-'.$valor, FALSE);
 			$this->db->where('idconta', $idconta);
 			$this->db->update('conta');
@@ -65,7 +74,7 @@ class Conta_model extends CI_Model {
 		public function getTotalCapitalAdmin($idusuario)
 		{
 			# code...
-			$this->db->select('saldo, saldoBloqueado');
+			$this->db->select('saldoSaque');
 			$this->db->from('conta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
 			return $this->db->get()->row_array();
@@ -74,7 +83,7 @@ class Conta_model extends CI_Model {
 		public function getTotalCapital()
 		{
 			# code...
-			$this->db->select('SUM(saldo) as saldo, SUM(saldoBloqueado) as saldoBloqueado');
+			$this->db->select('SUM(saldoSaque) as total');
 			$this->db->from('conta');
 			return $this->db->get()->row_array();
 		}

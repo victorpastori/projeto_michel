@@ -2,7 +2,7 @@
 
 	<?php foreach ($clientes as $cliente) : ?>
 		
-		<p><?= $cliente['nome'] ?> ---- <?= $cliente['saldo'] ?> </p>
+		<p><?= $cliente['nome'] ?> ---- <?= $cliente['saldoSaque'] ?> </p>
 
 	<?php endforeach ?>	
 

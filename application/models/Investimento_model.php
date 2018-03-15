@@ -8,11 +8,19 @@ class Investimento_model extends CI_Model {
 		}
 
 		public function aplicarRendimento($rendimento){
-			$this->db->set('valor', 'valor+'.$rendimento, FALSE);
+			$this->db->set('valor', "valor+valor*$rendimento", FALSE);
+			$this->db->set('carenciaRestante', 'carenciaRestante-1', FALSE);
 			$this->db->where('status', 1);
 			$this->db->update('investimento');
 		}
 
+		public function aplicarRendimentoParciais($valor, $status, $idinvestimento){
+			$this->db->set('valor', $valor, FALSE);
+			$this->db->set('status', $status, FALSE);
+			$this->db->where('idinvestimento', $idinvestimento);
+			$this->db->update('investimento');
+		}
+		
 		public function getInvestimentos(){
 
 		}
@@ -28,6 +36,13 @@ class Investimento_model extends CI_Model {
 			return $this->db->get()->result_array();
 		}
 
+		public function getInvestimentosParciais(){
+			$this->db->select('*');
+			$this->db->from('investimento');
+			$this->db->where('status', 0);
+			return $this->db->get()->result_array();
+		}
+
 		public function attStatusInvestimento(){
 
 		}
@@ -37,9 +52,9 @@ class Investimento_model extends CI_Model {
 			# code...
 			$this->db->select('SUM(valor) as total');
 			$this->db->from('investimento');
+			$this->db->where('status = 0 or status = 1');
 			$this->db->join('conta', 'conta_idconta = idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
-			$this->db->where('status = 0 or status = 1');
 			return $this->db->get()->row_array();
 		}
 

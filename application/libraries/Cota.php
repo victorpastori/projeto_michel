@@ -13,6 +13,7 @@ class Cota
  public $dataCompra;
  public $dataFechamento;
  public $rendimento;
+ public $status;
  public $conta_idconta;
 
  

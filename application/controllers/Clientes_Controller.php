@@ -1,10 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Clientes_Controller extends My_Controller {
+class Clientes_Controller extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->isUsuarioLogado();
 		$this->load->library('Cliente');
 		$this->load->library('Usuario');
 		$this->load->library('Conta');
@@ -17,6 +18,13 @@ class Clientes_Controller extends My_Controller {
 		$this->load->model('Banco_model');
 		$this->load->model('Movimento_model');
 		$this->load->model('Rendimento_model');
+	}
+
+	public function isUsuarioLogado(){
+		if(!$this->session->userdata('usuario_logado')){
+			$this->session->set_flashdata('danger', 'Sua sessão expirou ou você não está logado! Por favor efetue o login!');
+			redirect('/');
+		}
 	}
 
 	public function index(){

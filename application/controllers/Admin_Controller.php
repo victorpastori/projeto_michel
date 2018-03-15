@@ -1,10 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin_Controller extends My_Controller {
+class Admin_Controller extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->isUsuarioLogado();
 		$this->isAdmin();
 		$this->load->model('Cliente_model');
 		$this->load->model('Cota_model');
@@ -13,6 +14,13 @@ class Admin_Controller extends My_Controller {
 		$this->load->model('Investimento_model');
 		$this->load->model('Rendimento_model');
 		$this->load->model('Sistema_model');
+		$this->load->model('Comissao_model');
+	}
+	public function isUsuarioLogado(){
+		if(!$this->session->userdata('usuario_logado')){
+			$this->session->set_flashdata('danger', 'Sua sessão expirou ou você não está logado! Por favor efetue o login!');
+			redirect('/');
+		}
 	}
 
 	public function da(){
@@ -22,13 +30,16 @@ class Admin_Controller extends My_Controller {
 	public function index(){
 		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
 
+		// PEGANDO SALDO ADMIN E GERAL(SALDO SAQUE + INVESTIMENTOS + COTAS ATIVAS)
 		$capitalTotal = $this->Conta_model->getTotalCapital();
 		$capitalTotalAdmin = $this->Conta_model->getTotalCapitalAdmin($idusuario);
 		$totalInvestimento = $this->Investimento_model->getTotalInvestimentos();
 		$totalInvestimentoAdmin = $this->Investimento_model->getTotalInvestimentosAdmin($idusuario);
-
-		$capitalTotal = $capitalTotal['saldo']+$capitalTotal['saldoBloqueado']+$totalInvestimento['total'];
-		$capitalTotalAdmin = $capitalTotalAdmin['saldo']+$capitalTotalAdmin['saldoBloqueado']+$totalInvestimentoAdmin['total'];
+		$totalCotas = $this->Cota_model->getTotalCotas();
+		$totalCotasAdmin = $this->Cota_model->getTotalCotasAdmin($idusuario);
+		// SOMANDO EM UMA ÚNICA VARIÁVEL PARA EXIBIR (SALDO SAQUE + INVESTIMENTOS + COTAS ATIVAS)
+		$capitalTotal = $capitalTotal['total']+$totalInvestimento['total']+$totalCotas['total'];
+		$capitalTotalAdmin = $capitalTotalAdmin['saldoSaque']+$totalInvestimentoAdmin['total']+$totalCotasAdmin['total'];
 		
 		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
 
@@ -36,11 +47,12 @@ class Admin_Controller extends My_Controller {
 
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
 		$rendimentosClientes = $this->Rendimento_model->getRendimentosNoAdmin($idusuario);
-		$rendimentoTotal;
-		$lucroTotalEmpresa;
+		$rendimentosBrutos = $this->Rendimento_model->getSumAllRendimentos();
+		$rendimentosAdminMensais = $this->Rendimento_model->getSumAllRendimentosAdmin($idusuario);
+		$comissoes = $this->Comissao_model->getComissoes();
+		//$rendimentosAdminMensais = array_merge($rendimentosAdminMensais, $comissoes);
 		
-		$comissoes;
-		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes);
+		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes, 'comissoes' => $comissoes, 'rendimentosBrutos' => $rendimentosBrutos, 'rendimentosAdminMensais' => $rendimentosAdminMensais);
 		$this->load->view('admin/index.php', $dados);
 	}
 

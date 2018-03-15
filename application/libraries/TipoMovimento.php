@@ -8,9 +8,10 @@ class TipoMovimento
    # code...
  	/*Tipos de movimento: 	1 -> Saque
  							2 -> Depósito
- 							3 -> Retorno Investimento
- 							4 -> Retorno Cota
- 							5 -> Transferência (Previsão futura) */
+ 							3 -> Depósito Comissão
+ 							4 -> Retorno Investimento
+ 							5 -> Retorno Cota
+ 							6 -> Transferência (Previsão futura) */
  }
  
  public $idTipoMovimento;
