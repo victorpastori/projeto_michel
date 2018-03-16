@@ -12,6 +12,7 @@ class Cota_model extends CI_Model {
 			$this->db->from('cota');
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->join('cliente', 'idcliente = cliente_idcliente');
+			$this->db->order_by('dataCompra', 'DESC');
 			return $this->db->get()->result_array();
 		}
 
@@ -21,6 +22,7 @@ class Cota_model extends CI_Model {
 			$this->db->where('status = 1');
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			$this->db->order_by('dataCompra', 'DESC');
 			return $this->db->get()->result_array();
 		}
 
@@ -39,6 +41,7 @@ class Cota_model extends CI_Model {
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->join('cliente', 'idcliente = cliente_idcliente');
 			$this->db->where('idcliente', $idcliente);
+			$this->db->order_by('dataCompra', 'DESC');
 			return $this->db->get()->result_array();
 		}
 

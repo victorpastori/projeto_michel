@@ -37,7 +37,7 @@ class Clientes_Controller extends CI_Controller {
 		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
 		$cotas = $this->Cota_model->getMyCotas($idusuario);
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
-		$dados = array('saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos);
+		$dados = array('saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos, 'investimentos' => $investimentos);
 		$this->load->view('cliente/index', $dados);
 	}
 

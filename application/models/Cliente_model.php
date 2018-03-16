@@ -12,6 +12,7 @@ class Cliente_model extends CI_Model {
 			$this->db->select('idcliente, nome, saldoSaque');
 			$this->db->from('cliente');
 			$this->db->join('conta', 'idcliente = cliente_idcliente');
+			$this->db->order_by('nome', 'ASC');
 			return $this->db->get()->result_array();
 		}
 

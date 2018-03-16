@@ -11,6 +11,7 @@ class Movimento_model extends CI_Model {
 			$this->db->select('*');
 			$this->db->from('movimento');
 			$this->db->join('tipo_movimento', 'idtipo_movimento = tipo_movimento_idtipo_movimento');
+			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
 
@@ -21,6 +22,7 @@ class Movimento_model extends CI_Model {
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
 			$this->db->group_by('data, tipo, status');
+			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
 
@@ -36,6 +38,7 @@ class Movimento_model extends CI_Model {
 			$this->db->join('cliente', 'idcliente = cliente_idcliente');
 			$this->db->join('tipo_movimento', 'idtipo_movimento = tipo_movimento_idtipo_movimento');
 			$this->db->where('idtipo_movimento', 2);
+			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
 		

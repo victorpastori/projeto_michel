@@ -31,6 +31,7 @@ class Investimento_model extends CI_Model {
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
 			$this->db->where('status !=', 2);
+			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
 
@@ -47,6 +48,7 @@ class Investimento_model extends CI_Model {
 			$this->db->select('*');
 			$this->db->from('investimento');
 			$this->db->where('status', 1);
+			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
 
@@ -54,6 +56,7 @@ class Investimento_model extends CI_Model {
 			$this->db->select('*');
 			$this->db->from('investimento');
 			$this->db->where('status', 0);
+			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
 

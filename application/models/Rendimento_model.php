@@ -11,6 +11,7 @@ class Rendimento_model extends CI_Model {
 			$this->db->select('*');
 			$this->db->from('rendimento');
 			$this->db->join('tipo_rendimento', 'idtipo_rendimento = tipo_rendimento_idtipo_rendimento');
+			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
 

@@ -27,24 +27,31 @@
 	<div class="tab-pane fade show active" id="nav-saques" role="tabpanel" aria-labelledby="nav-saques-tab">
   	<?php if ($saquesPendentes) { ?>
 			Saques Pendentes<br>
-		<?php foreach ($saquesPendentes as $saquePendente) : ?>
-			<p><?= $saquePendente['nome']?> --- <?= $saquePendente['tipo']?> --- US$ <?= number_format($saquePendente['valor'],2)?> --- <?= $saquePendente['data']?> <a href="<?= base_url("index.php/Clientes_Controller/alterarSenha")?>" class="btn btn-success">Atualizar Status</a> </p>
+		<?php foreach ($saquesPendentes as $saquePendente) : 
+		$data = DateTime::createFromFormat('Y-m-d', $saquePendente['data']);
+		$data = $data->format('d/m/Y'); ?>
+
+			<p><?= $saquePendente['nome']?> --- <?= $saquePendente['tipo']?> --- US$ <?= number_format($saquePendente['valor'],2)?> --- <?= $data ?> <a href="<?= base_url("index.php/Clientes_Controller/alterarSenha")?>" class="btn btn-success">Atualizar Status</a> </p>
 		<?php endforeach ?> 
 	<?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
   	<?php if ($movimentos) { ?>
 			Movimentos<br>
-		<?php foreach ($movimentos as $movimento) : ?>
-			<p><?= $movimento['tipo']?> --- US$ <?= number_format($movimento['valor'],2)?> --- <?= $movimento['data']?> </p>
-		<?php endforeach ?> 
+		<?php foreach ($movimentos as $movimento) : 
+	$data = DateTime::createFromFormat('Y-m-d', $movimento['data']);
+	$data = $data->format('d/m/Y'); ?>
+		<p><?= $movimento['tipo']?> --- US$ <?= number_format($movimento['valor'],2)?> --- <?= $data?> </p>
+	<?php endforeach ?> 
 	<?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
   	<?php if ($cotas) { ?>
 		Cotas<br>
-		<?php foreach ($cotas as $cota) : ?>
-			<p> <?= $cota['dataCompra']?> - Tamanho da quota: US$ <?= number_format($cota['valor'],2)?> | Rentabilidade: <?= $cota['rendimento']?>% = US$ <?= number_format(($cota['valor']*$cota['rendimento']/100),2);?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2);?> </p>
+		<?php foreach ($cotas as $cota) : 
+		$data = DateTime::createFromFormat('Y-m-d', $cota['dataCompra']);
+		$data = $data->format('d/m/Y');  ?>
+			<p> <?= $data?> - Tamanho da quota: US$ <?= number_format($cota['valor'],2)?> | Rentabilidade: <?= $cota['rendimento']?>% = US$ <?= number_format(($cota['valor']*$cota['rendimento']/100),2);?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2);?> </p>
 		<?php endforeach ?> 
 	<?php } ?>
   </div>
