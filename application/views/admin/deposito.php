@@ -22,7 +22,7 @@
 		<label for="inputCarencia">Carência</label>
 		<input class="form-control" type="number" name="carencia" id="inputCarencia" min="0" required placeholder="Tempo de carência para saque">
 	</div>	
-  	<button type="submit" class="btn btn-primary">Relizar Depósito</button>
+  	<button type="submit" class="btn btn-primary">Realizar Depósito</button>
 </form>
 
 <?php $this->load->view('rodape'); ?>

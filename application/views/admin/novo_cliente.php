@@ -7,8 +7,8 @@
 	</div>
 
 	<div class="form-group">
-		<label for="inputCpf">Cpf</label>
-		<input class="form-control" type="text" name="cpf" id="inputCpf" required placeholder="Informe seu cpf">
+		<label for="inputCpf">CPF</label>
+		<input class="form-control" type="text" name="cpf" id="inputCpf" required placeholder="Informe seu CPF">
 	</div>
 
 	<div class="form-group">

@@ -7,7 +7,7 @@
     	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   	</div>
 	<div class="form-group">
-		<label for="inputTaxaRendimentos">Taxa de ADM rendimentos cotas</label>
+		<label for="inputTaxaRendimentos">Taxa de ADM rendimentos mensais</label>
     	<input type="number" class="form-control" name="taxaRendimentos" id="inputTaxaRendimentos" aria-describedby="emailHelp" required value="<?= $valorAdmRend?>" disabled>
   	</div>
     <div class="form-group">
@@ -16,7 +16,6 @@
     </div>
   	<button type="submit" id="btnSalvar" class="btn btn-success" disabled>Salvar</button>
   	<input type="button" id="btnEditar" class="btn btn-primary" onclick="changeForm()" value="Editar">
-  	<a href="<?= base_url("index.php/Clientes_Controller/alterarSenha")?>" class="btn btn-danger">Alterar Senha</a>
 </form>
 
 <br>

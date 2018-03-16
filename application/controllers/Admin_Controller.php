@@ -89,7 +89,8 @@ class Admin_Controller extends CI_Controller {
 		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
 		$cotas = $this->Cota_model->getMyCotas($idusuario);
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
-		$dados = array('cliente' => $cliente, 'saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos);
+		$investimentos = $this->Investimento_model->getInvestimentosCliente($idusuario);
+		$dados = array('cliente' => $cliente, 'saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos, 'investimentos' => $investimentos);
 		$this->load->view('admin/perfil_cliente', $dados);
 	}
 
