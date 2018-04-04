@@ -41,5 +41,17 @@ class Movimento_model extends CI_Model {
 			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
+
+		public function getMySaquesPendentes($idusuario){
+			$this->db->select('valor, data, tipo');
+			$this->db->from('movimento');
+			$this->db->where('status', 0);
+			$this->db->join('conta', 'idconta = conta_idconta');
+			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			$this->db->join('tipo_movimento', 'idtipo_movimento = tipo_movimento_idtipo_movimento');
+			$this->db->where('idtipo_movimento', 2);
+			$this->db->order_by('data', 'DESC');
+			return $this->db->get()->result_array();
+		}
 		
 }

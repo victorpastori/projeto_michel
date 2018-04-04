@@ -3,6 +3,16 @@
 
 class Cliente_model extends CI_Model {
 
+
+		public function existeCpf($cpf)
+		{
+			# code...
+			$this->db->select('cpf');
+			$this->db->from('cliente');
+			$this->db->where('cpf', $cpf);
+			return $this->db->get()->row_array();
+		}
+
 		public function cadastrarCliente($cliente){
 			$this->db->insert('cliente', $cliente);
 			return $this->db->insert_id();

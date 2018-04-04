@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= base_url("css/signin.css")?>" />
+    <link rel="stylesheet" href="<?= base_url("css/bootstrap.min.css")?>" />
     <title></title>
 </head>
 <body class="text-center">
+  
 
-  <?php $this->session->flashdata('danger'); ?>
     <form class="form-signin" action="<?= base_url("index.php/Usuarios_Controller/autenticar")?>" method="post">
+      <?php if ($this->session->flashdata('erroLogin')) { ?>
+
+        <div class="alert alert-danger" role="alert">
+          <?php 
+          echo $this->session->flashdata('erroLogin');
+         ?>
+        </div>
+        <?php   } ?>
+</div>
       <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
       <label for="inputEmail" class="sr-only">Email</label>

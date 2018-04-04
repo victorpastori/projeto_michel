@@ -19,8 +19,8 @@
 	</div>
 
 	<div class="form-group">
-		<label for="inputRendimento">Rendimento</label>
-		<input class="form-control" type="number" name="rendimento" id="inputRendimentop" min="0" required placeholder="Rendimento no fechamento da cota">
+		<label for="inputRendimento">Rendimento %</label>
+		<input class="form-control" type="number" name="rendimento" id="inputRendimentop" min="0" required placeholder="Rendimento no fechamento da cota em %">
 	</div>
 
 	<div class="form-group">

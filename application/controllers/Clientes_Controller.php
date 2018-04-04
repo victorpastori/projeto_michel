@@ -51,10 +51,33 @@ class Clientes_Controller extends CI_Controller {
 		$cliente->nome = $this->input->post('nome');
 		$cliente->email = $this->input->post('email');
 		$cliente->cpf = $this->input->post('cpf');
+		$contaSaque = new ContaSaque();
+		$contaSaque->banco_idbanco = $this->input->post('banco');
+		$contaSaque->agencia = $this->input->post('agencia');
+		$contaSaque->conta = $this->input->post('conta');
+		$contaSaque->tipo = $this->input->post('tipo');
+		if($this->existeUsuario($usuario->login)){
+			redirect('Admin_Controller/novoCliente');
+		}
+
+		if($this->existeCpf($cliente->cpf)){
+			redirect('Admin_Controller/novoCliente');
+		}
+		
 		$idusuario = $this->Usuario_model->cadastrarUsuario($usuario);
 		$cliente->usuario_idusuario = $idusuario;
 		$idcliente = $this->Cliente_model->cadastrarCliente($cliente);
+		$contaSaque->cliente_idcliente = $idcliente;
+		$this->cadastrarContaSaque($contaSaque);
 		$this->cadastrarContaCliente($idcliente, $idusuario);
+	}
+
+	public function existeUsuario($email){
+		return $this->Usuario_model->existeEmail($email);
+	}	
+
+	public function existeCpf($cpf){
+		return $this->Cliente_model->existeCpf($cpf);
 	}
 
 	public function cadastrarContaCliente($idcliente, $idusuario){
@@ -70,7 +93,9 @@ class Clientes_Controller extends CI_Controller {
 	}
 
 	public function saque(){
-		$this->load->view('cliente/saque');
+		$saquesPendentes = $this->Movimento_model->getMySaquesPendentes($this->session->userdata('usuario_logado')['idusuario']);
+		$dados = array('saquesPendentes' => $saquesPendentes);
+		$this->load->view('cliente/saque', $dados);
 	}
 
 	public function minhasCotas(){
@@ -96,7 +121,7 @@ class Clientes_Controller extends CI_Controller {
 		$this->load->view('cliente/conta_saque', $dados);
 	}
 
-	public function cadastrarContaSaque()
+	/*public function cadastrarContaSaque()
 	{
 		# code...
 		$contaSaque = new ContaSaque();
@@ -108,6 +133,13 @@ class Clientes_Controller extends CI_Controller {
 		$contaSaque->cliente_idcliente = $cliente['idcliente'];
 		$this->ContaSaque_model->cadastrarContaSaque($contaSaque);
 		redirect('Clientes_Controller/minhaConta');
+		
+	}*/
+
+	public function cadastrarContaSaque($contaSaque)
+	{
+		# code...
+		$this->ContaSaque_model->cadastrarContaSaque($contaSaque);
 		
 	}
 

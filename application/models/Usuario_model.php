@@ -3,6 +3,15 @@
 
 class Usuario_model extends CI_Model {
 
+		public function existeEmail($email)
+		{
+			# code...
+			$this->db->select('login');
+			$this->db->from('usuario');
+			$this->db->where('login', $email);
+			return $this->db->get()->row_array();
+		}
+
 		public function cadastrarUsuario($usuario){
 			$this->db->insert('usuario', $usuario);
 			return $this->db->insert_id();		}

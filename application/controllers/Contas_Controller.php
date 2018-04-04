@@ -31,7 +31,7 @@ class Contas_Controller extends CI_Controller {
 		$conta = $this->Conta_model->getConta($idusuario);
 		$valorSaque = $this->input->post('valor');
 		if($valorSaque > $conta['saldoSaque']){
-			$this->session->set_flashdata('erroSaque', 'Valor solicitado superior ao limite disponível! Valor disponível para saque: U$ '.$conta['saldoSaque']);
+			$this->session->set_flashdata('erroSaque', 'Valor solicitado superior ao limite disponível! Valor disponível para saque: U$ '.number_format($conta['saldoSaque'], 2, ',', ','));
 			redirect('Clientes_Controller/saque');
 		}else {
 			$movimento = new Movimento();
@@ -42,6 +42,8 @@ class Contas_Controller extends CI_Controller {
 			$movimento->tipo_movimento_idtipo_movimento = 2;
 			$this->Movimento_model->cadastrarMovimento($movimento);
 			$this->Conta_model->updateSaldoSaque($movimento->valor, $conta['idconta']);
+			$this->session->set_flashdata('saqueOk', 'Saque efetuado com sucesso');
+			redirect('Clientes_Controller/saque');
 		}
 		
 	}

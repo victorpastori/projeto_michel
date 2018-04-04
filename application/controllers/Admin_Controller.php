@@ -15,6 +15,7 @@ class Admin_Controller extends CI_Controller {
 		$this->load->model('Rendimento_model');
 		$this->load->model('Sistema_model');
 		$this->load->model('Comissao_model');
+		$this->load->model('Banco_model');
 	}
 	public function isUsuarioLogado(){
 		if(!$this->session->userdata('usuario_logado')){
@@ -70,7 +71,9 @@ class Admin_Controller extends CI_Controller {
 	}
 
 	public function novoCliente(){
-		$this->load->view('admin/novo_cliente');
+		$bancos = $this->Banco_model->getBancos();
+		$dados = array('bancos' => $bancos );
+		$this->load->view('admin/novo_cliente', $dados);
 	}
 
 	public function buscarCliente(){
@@ -80,7 +83,7 @@ class Admin_Controller extends CI_Controller {
 	}
 
 	public function mostrarCliente(){
-		$idcliente = $this->input->post('cliente');
+		$idcliente = $this->input->get('cliente');
 		$cliente = $this->Cliente_model->getCliente($idcliente);
 		$idusuario = $cliente['usuario_idusuario'];
 		$saldos = $this->Conta_model->getConta($idusuario);

@@ -4,9 +4,9 @@
 	  <thead>
 	    <tr>
 	      <th scope="col">Data Compra</th>
-	      <th scope="col">Tamanho Cota</th>
+	      <th scope="col">Tamanho Cota(US$)</th>
 	      <th scope="col">Rentabilidade</th>
-	      <th scope="col">Rendimento</th>
+	      <th scope="col">Rendimento(US$)</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -15,9 +15,9 @@
 		$data = $data->format('d/m/Y');  ?>
 	    <tr>
 	      <td><?= $data?></td>
-	      <td>US$ <?= number_format($cota['valor'],2, ',', '.')?></td>
+	      <td>$<?= number_format($cota['valor'],2, ',', ',')?></td>
 	      <td><?= $cota['rendimento']?>%</td>
-	      <td>US$ <?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', '.');?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2, ',', '.');?></td>
+	      <td>$<?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', ',');?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2, ',', ',');?></td>
 	    </tr>
 	    <?php endforeach ?>	
 	  </tbody>

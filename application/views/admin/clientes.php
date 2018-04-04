@@ -5,6 +5,7 @@
 	    <tr>
 	      <th scope="col">Nome</th>
 	      <th scope="col">Saldo Saque</th>
+	      <th scope="col"></th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -12,6 +13,7 @@
 			<tr>
 		      <td><?= $cliente['nome'] ?></td>
 		      <td>US$ <?= number_format($cliente['saldoSaque'],2, ',', '.') ?></td>
+		      <td><a href="<?= base_url("index.php/Admin_Controller/mostrarCliente?cliente=".$cliente['idcliente'])?>" class="btn btn-primary">Ver Perfil</a></td>
 		    </tr>
 		<?php endforeach ?>	
 	  </tbody>

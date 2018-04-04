@@ -10,6 +10,7 @@ class Usuarios_Controller extends CI_Controller {
 
 	public function index()
 	{
+		//$this->redirectUsuarioLogado();
 		$this->load->view('public/index');
 	}
 
@@ -32,7 +33,7 @@ class Usuarios_Controller extends CI_Controller {
 			$this->session->set_userdata('usuario_logado', $usuario);
 			$this->session->set_flashdata('success', 'Logado com sucesso!');
 		}else{
-			$this->session->set_flashdata('danger', 'Usuário ou senha inválidos!');
+			$this->session->set_flashdata('erroLogin', 'Usuário ou senha inválidos!');
 			redirect('/');
 		}
 		if ($this->session->userdata('usuario_logado')['tipo'] == 1) {
@@ -52,6 +53,18 @@ class Usuarios_Controller extends CI_Controller {
 		$this->session->unset_userdata("usuario_logado");
 		$this->session->set_flashdata('success', 'Deslogado com sucesso!');
 		redirect('/');
+	}
+
+	public function redirectUsuarioLogado(){
+		if($this->session->userdata('usuario_logado')){
+			if ($this->session->userdata('usuario_logado')['tipo'] == 1) {
+				redirect('Admin_Controller/index');
+		}else {
+				redirect('Clientes_Controller/index');
+		}
+		}else{
+			$this->load->view('public/index');
+		}
 	}
 
 	public function isUsuarioLogado(){

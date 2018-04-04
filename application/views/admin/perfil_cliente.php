@@ -9,19 +9,19 @@ Cliente: <?=$cliente['nome']?><br><br>
 		<div class="card border-dark mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
 		  <div class="card-header">Saldo em Cotas:</div>
 		  <div class="card-body text-dark">
-		    <h5 class="card-title">US$ <?= number_format($saldoCotas['total'], 2, ',', '.')?></h5>
+		    <h5 class="card-title">$<?= number_format($saldoCotas['total'], 2, ',', ',')?></h5>
 		  </div>
 		</div>
 		<div class="card border-dark mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
 		  <div class="card-header">Saldo em Investimentos:</div>
 		  <div class="card-body text-dark">
-		    <h5 class="card-title">US$ <?= number_format($saldoInvestimentos['total'], 2, ',', '.') ?></h5>
+		    <h5 class="card-title">$<?= number_format($saldoInvestimentos['total'], 2, ',', ',') ?></h5>
 		  </div>
 		</div>
 		<div class="card border-dark mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
 		  <div class="card-header">Saldo Saque:</div>
 		  <div class="card-body text-dark">
-		    <h5 class="card-title">US$ <?= number_format($saldos['saldoSaque'],2, ',', '.') ?></h5>
+		    <h5 class="card-title">$<?= number_format($saldos['saldoSaque'],2, ',', ',') ?></h5>
 		  </div>
 		</div>
 	</div>
@@ -39,37 +39,105 @@ Cliente: <?=$cliente['nome']?><br><br>
   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
   	<?php if ($movimentos) { ?>
 		Movimentos<br>
-	<?php foreach ($movimentos as $movimento) : ?>
-		<p><?= $movimento['tipo']?> --- US$ <?= number_format($movimento['valor'],2, ',', '.')?> --- <?= $movimento['data']?> </p>
-	<?php endforeach ?> 
+	<table id="table-movimentos" class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Tipo</th>
+		      <th scope="col">Valor (US$)</th>
+		      <th scope="col">Data</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<?php foreach ($movimentos as $movimento) : 
+				$data = DateTime::createFromFormat('Y-m-d', $movimento['data']);
+				$data = $data->format('d/m/Y'); ?>
+				<tr>
+			      <td><?= $movimento['tipo']?></td>
+			      <td>$<?= number_format($movimento['valor'],2, ',', ',')?></td>
+			      <td><?= $data?></td>
+			    </tr>
+			<?php endforeach ?> 
+		  </tbody>
+		</table>
 <?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-investimentos" role="tabpanel" aria-labelledby="nav-investimentos-tab">
   	<?php if ($investimentos) { ?>
 		Investimentos<br>
-	<?php foreach ($investimentos as $investimento) : 
-	$data = DateTime::createFromFormat('Y-m-d', $investimento['data']);
-	$data = $data->format('d/m/Y'); ?>
-		<p>Data Inicio: <?= $data?> --- Saldo Atual: US$ <?= number_format($investimento['valor'],2, ',', '.')?> --- Carência Restante: <?= $investimento['carenciaRestante']?> meses </p>
-	<?php endforeach ?> 
+		<table id="table-investimentos" class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Data</th>
+		      <th scope="col">Valor (US$)</th>
+		      <th scope="col">Carência Restante</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<?php foreach ($investimentos as $investimento) : 
+				$data = DateTime::createFromFormat('Y-m-d', $investimento['data']);
+				$data = $data->format('d/m/Y'); ?>
+				<tr>
+			      <td><?= $data?></td>
+			      <td>$<?= number_format($investimento['valor'],2, ',', ',')?></td>
+			      <td><?= $investimento['carenciaRestante']?></td>
+			    </tr>
+			<?php endforeach ?> 
+		  </tbody>
+		</table>
 <?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
   	<?php if ($cotas) { ?>
 	Cotas<br>
-	<?php foreach ($cotas as $cota) : 
-	$data = DateTime::createFromFormat('Y-m-d', $cota['dataCompra']);
-	$data = $data->format('d/m/Y'); ?>
-		<p> <?= $data?> - Tamanho da quota: US$ <?= number_format($cota['valor'],2)?> | Rentabilidade: <?= $cota['rendimento']?>% = US$ <?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', '.');?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2, ',', '.');?> </p>
-	<?php endforeach ?> 
+	<table id="table-cotas" class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Data Compra</th>
+		      <th scope="col">Tamanho Cota (US$)</th>
+		      <th scope="col">Rentabilidade</th>
+		      <th scope="col">Rendimento (US$)</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<?php foreach ($cotas as $cota) : 
+			$data = DateTime::createFromFormat('Y-m-d', $cota['dataCompra']);
+			$data = $data->format('d/m/Y');  ?>
+		    <tr>
+		      <td><?= $data?></td>
+		      <td>$<?= number_format($cota['valor'],2, ',', ',')?></td>
+		      <td><?= $cota['rendimento']?>%</td>
+		      <td>$<?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', ',');?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2, ',', '.');?></td>
+		    </tr>
+		    <?php endforeach ?>	
+		  </tbody>
+		</table>
 <?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
   	<?php if ($rendimentos) { ?>
 		Rendimenos<br>
-	<?php foreach ($rendimentos as $rendimento) : ?>
-		<p> US$ <?= number_format($rendimento['total'],2, ',', '.')?> --- <?= $rendimento['month']?>/<?= $rendimento['year']?></p>	
-	<?php endforeach ?>
+		<table id="table-rendimentos" class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Tipo</th>
+		      <th scope="col">Taxa</th>
+		      <th scope="col">Total(US$)(Descontado taxa Administração)</th>
+		      <th scope="col">Data</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<?php foreach ($rendimentos as $rendimento) : 
+			$data = DateTime::createFromFormat('Y-m-d', $cota['dataCompra']);
+			$data = $data->format('d/m/Y');  ?>
+		    <tr>
+		      <td><?= $rendimento['tipo']?></td>
+			      <td><?= $rendimento['percentual']?>%</td>
+			      <td>$<?= number_format($rendimento['total'],2, ',', ',')?></td>
+			      <td><?= $rendimento['month']?>/<?= $rendimento['year']?></td>
+		    </tr>
+		    <?php endforeach ?>	
+		  </tbody>
+		</table>
 <?php } ?>
   </div>
 </div>

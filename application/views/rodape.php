@@ -13,7 +13,12 @@
     $('#table-cotas').DataTable();
     $('#table-movimentos').DataTable();
     $('#table-rendimentos').DataTable();
+    $('#table-rend-clientes').DataTable();
+    $('#table-rend-bruto').DataTable();
+    $('#table-comissoes').DataTable();
+    $('#table-lucro-total').DataTable();
     $('#table-saques').DataTable();
+    $('#table-investimentos').DataTable();
 } );
 
 </script>

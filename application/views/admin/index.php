@@ -58,7 +58,7 @@
 				$data = $data->format('d/m/Y'); ?>
 				<tr>
 			      <td><?= $saquePendente['nome']?></td>
-			      <td>US$ <?= number_format($saquePendente['valor'],2, ',', '.')?></td>
+			      <td>$<?= number_format($saquePendente['valor'],2, ',', ',')?></td>
 			      <td><?= $data ?></td>
 			      <td><a href="<?= base_url("index.php/Clientes_Controller/alterarSenha")?>" class="btn btn-success">Atualizar Status</a></td>
 			    </tr>
@@ -75,7 +75,7 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">Tipo</th>
-		      <th scope="col">Valor</th>
+		      <th scope="col">Valor (US$)</th>
 		      <th scope="col">Data</th>
 		    </tr>
 		  </thead>
@@ -85,7 +85,7 @@
 				$data = $data->format('d/m/Y'); ?>
 				<tr>
 			      <td><?= $movimento['tipo']?></td>
-			      <td>US$ <?= number_format($movimento['valor'],2, ',', '.')?></td>
+			      <td>$<?= number_format($movimento['valor'],2, ',', ',')?></td>
 			      <td><?= $data?></td>
 			    </tr>
 			<?php endforeach ?> 
@@ -102,9 +102,9 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">Data Compra</th>
-		      <th scope="col">Tamanho Cota</th>
+		      <th scope="col">Tamanho Cota (US$)</th>
 		      <th scope="col">Rentabilidade</th>
-		      <th scope="col">Rendimento</th>
+		      <th scope="col">Rendimento (US$)</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -113,9 +113,9 @@
 			$data = $data->format('d/m/Y');  ?>
 		    <tr>
 		      <td><?= $data?></td>
-		      <td>US$ <?= number_format($cota['valor'],2, ',', '.')?></td>
+		      <td>$<?= number_format($cota['valor'],2, ',', ',')?></td>
 		      <td><?= $cota['rendimento']?>%</td>
-		      <td>US$ <?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', '.');?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2, ',', '.');?></td>
+		      <td>$<?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', ',');?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2, ',', '.');?></td>
 		    </tr>
 		    <?php endforeach ?>	
 		  </tbody>
@@ -131,7 +131,7 @@
 		    <tr>
 		      <th scope="col">Tipo</th>
 		      <th scope="col">Taxa</th>
-		      <th scope="col">Total(Descontado taxa Administração)</th>
+		      <th scope="col">Total(US$)(Descontado taxa Administração)</th>
 		      <th scope="col">Data</th>
 		    </tr>
 		  </thead>
@@ -140,7 +140,7 @@
 				<tr>
 			      <td><?= $rendimento['tipo']?></td>
 			      <td><?= $rendimento['percentual']?>%</td>
-			      <td>US$ <?= number_format($rendimento['total'],2, ',', '.')?></td>
+			      <td>$<?= number_format($rendimento['total'],2, ',', ',')?></td>
 			      <td><?= $rendimento['month']?>/<?= $rendimento['year']?></td>
 			    </tr>
 			<?php endforeach ?> 
@@ -156,14 +156,14 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">Data</th>
-		      <th scope="col">Total</th>
+		      <th scope="col">Total(US$)</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		  	<?php foreach ($rendimentosClientes as $rendimentoCliente) : ?>
 				<tr>
 			      <td><?= $rendimentoCliente['month']?>/<?= $rendimentoCliente['year']?></td>
-			      <td>US$ <?= number_format($rendimentoCliente['total'],2, ',', '.')?></td>
+			      <td>$<?= number_format($rendimentoCliente['total'],2, ',', ',')?></td>
 			    </tr>
 			<?php endforeach ?> 
 		  </tbody>
@@ -178,14 +178,14 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">Data</th>
-		      <th scope="col">Total</th>
+		      <th scope="col">Total(US$)</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		  	<?php foreach ($comissoes as $comissao) : ?>
 				<tr>
 			      <td><?= $comissao['month']?>/<?= $comissao['year']?></td>
-			      <td>US$ <?= number_format($comissao['total'],2, ',', '.')?></td>
+			      <td>$<?= number_format($comissao['total'],2, ',', ',')?></td>
 			    </tr>
 			<?php endforeach ?> 
 		  </tbody>
@@ -200,14 +200,14 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">Data</th>
-		      <th scope="col">Total</th>
+		      <th scope="col">Total(US$)</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		  	<?php foreach ($comissoes as $index => $comissao) : ?>
 				<tr>
 			      <td><?= $comissao['month']?>/<?= $comissao['year']?></td>
-			      <td>US$ <?= number_format(($rendimentosAdminMensais[$index]['total']+ $comissao['total']),2, ',', '.')?></td>
+			      <td>$<?= number_format(($rendimentosAdminMensais[$index]['total']+ $comissao['total']),2, ',', ',')?></td>
 			    </tr>
 			<?php endforeach ?> 
 		  </tbody>
@@ -222,14 +222,14 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">Data</th>
-		      <th scope="col">Total</th>
+		      <th scope="col">Total(US$)</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		  	<?php foreach ($rendimentosBrutos as $rendimentoBruto) : ?>
 				<tr>
 			      <td><?= $rendimentoBruto['month']?>/<?= $rendimentoBruto['year']?></td>
-			      <td>US$ <?= number_format(($rendimentoBruto['total']+$rendimentoBruto['totalComissao']),2, ',', '.')?></td>
+			      <td>$<?= number_format(($rendimentoBruto['total']+$rendimentoBruto['totalComissao']),2, ',', ',')?></td>
 			    </tr>
 			<?php endforeach ?> 
 		  </tbody>
