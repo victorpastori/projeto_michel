@@ -2,8 +2,8 @@
 
 <form action="<?= base_url("index.php/Contas_Controller/cadastrarRendimentos")?>" method="post">
 	<div class="form-group">
-		<label for="inputRendimento">Rendimento Mensal</label>
-    	<input type="number" class="form-control" name="rendimento" id="inputRendimento" aria-describedby="emailHelp" placeholder="Informe valor do rendimento">
+		<label for="inputRendimento">Rendimento Mensal (%)</label>
+    	<input type="number" class="form-control" name="rendimento" min="1" step=".01" id="inputRendimento" aria-describedby="emailHelp" placeholder="Informe valor do rendimento em %">
   	</div>
 
   	<div class="form-group">

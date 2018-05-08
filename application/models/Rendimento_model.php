@@ -16,11 +16,24 @@ class Rendimento_model extends CI_Model {
 		}
 
 		public function getRendimentosCliente($idusuario){
+			$this->db->select('valor , MONTH(data) as month, YEAR(data) as year, tipo, percentual, capital');
+			$this->db->from('rendimento');
+			$this->db->join('tipo_rendimento', 'idtipo_rendimento = tipo_rendimento_idtipo_rendimento');
+			$this->db->join('conta', 'idconta = conta_idconta');
+			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			$this->db->where('tipo_rendimento_idtipo_rendimento != 3');
+			$this->db->order_by('MONTH(data)', 'DESC');
+			$this->db->order_by('MONTH(year)', 'DESC');
+			return $this->db->get()->result_array();
+		}
+
+		public function getRendimentosClienteSum($idusuario){
 			$this->db->select('SUM(valor) as total, MONTH(data) as month, YEAR(data) as year, tipo, percentual');
 			$this->db->from('rendimento');
 			$this->db->join('tipo_rendimento', 'idtipo_rendimento = tipo_rendimento_idtipo_rendimento');
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			$this->db->where('tipo_rendimento_idtipo_rendimento != 3');
 			$this->db->order_by('MONTH(data)', 'DESC');
 			$this->db->order_by('MONTH(year)', 'DESC');
 			$this->db->group_by('MONTH(data), YEAR(data), tipo, percentual');

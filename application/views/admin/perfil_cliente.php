@@ -1,26 +1,27 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
 
 Cliente: <?=$cliente['nome']?><br><br>
+<a href="<?= base_url("index.php/Admin_Controller/mostrarDadosCliente?cliente=".$cliente['idcliente'])?>" class="btn btn-success">Dados Cliente</a>
 <br>
 
 <div class="container">
 	<div class="row">
 		<div class="container col-xl-5"></div>
-		<div class="card border-dark mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
+		<div class="card border-warning mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
 		  <div class="card-header">Saldo em Cotas:</div>
-		  <div class="card-body text-dark">
+		  <div class="card-body text-warning">
 		    <h5 class="card-title">$<?= number_format($saldoCotas['total'], 2, ',', ',')?></h5>
 		  </div>
 		</div>
-		<div class="card border-dark mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
+		<div class="card border-primary mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
 		  <div class="card-header">Saldo em Investimentos:</div>
-		  <div class="card-body text-dark">
+		  <div class="card-body text-primary">
 		    <h5 class="card-title">$<?= number_format($saldoInvestimentos['total'], 2, ',', ',') ?></h5>
 		  </div>
 		</div>
-		<div class="card border-dark mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
+		<div class="card border-success mb-3" style="max-width: 18rem; margin-left: 4px; margin-right: 4px;">
 		  <div class="card-header">Saldo Saque:</div>
-		  <div class="card-body text-dark">
+		  <div class="card-body text-success">
 		    <h5 class="card-title">$<?= number_format($saldos['saldoSaque'],2, ',', ',') ?></h5>
 		  </div>
 		</div>
@@ -59,7 +60,7 @@ Cliente: <?=$cliente['nome']?><br><br>
 			<?php endforeach ?> 
 		  </tbody>
 		</table>
-<?php } ?>
+	<?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-investimentos" role="tabpanel" aria-labelledby="nav-investimentos-tab">
   	<?php if ($investimentos) { ?>
@@ -84,34 +85,38 @@ Cliente: <?=$cliente['nome']?><br><br>
 			<?php endforeach ?> 
 		  </tbody>
 		</table>
-<?php } ?>
+	<?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
   	<?php if ($cotas) { ?>
 	Cotas<br>
 	<table id="table-cotas" class="table">
 		  <thead>
-		    <tr>
-		      <th scope="col">Data Compra</th>
-		      <th scope="col">Tamanho Cota (US$)</th>
-		      <th scope="col">Rentabilidade</th>
-		      <th scope="col">Rendimento (US$)</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  	<?php foreach ($cotas as $cota) : 
-			$data = DateTime::createFromFormat('Y-m-d', $cota['dataCompra']);
-			$data = $data->format('d/m/Y');  ?>
-		    <tr>
-		      <td><?= $data?></td>
-		      <td>$<?= number_format($cota['valor'],2, ',', ',')?></td>
-		      <td><?= $cota['rendimento']?>%</td>
-		      <td>$<?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', ',');?> (-25%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*0.75),2, ',', '.');?></td>
-		    </tr>
-		    <?php endforeach ?>	
-		  </tbody>
+	    <tr>
+	      <th scope="col">Data Compra</th>
+	      <th scope="col">Data Fechamento</th>
+	      <th scope="col">Tamanho Cota(US$)</th>
+	      <th scope="col">Rentabilidade</th>
+	      <th scope="col">Rendimento(US$)</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<?php foreach ($cotas as $cota) : 
+		$data = DateTime::createFromFormat('Y-m-d', $cota['dataCompra']);
+		$data = $data->format('d/m/Y');  
+		$dataFechamento = DateTime::createFromFormat('Y-m-d', $cota['dataFechamento']);
+		$dataFechamento = $dataFechamento->format('d/m/Y');  ?>
+	    <tr>
+	      <td><?= $data?></td>
+	      <td><?= $dataFechamento?></td>
+	      <td>$<?= number_format($cota['valor'],2, ',', ',')?></td>
+	      <td><?= $cota['rendimento']?>%</td>
+	      <td>$<?= number_format(($cota['valor']*$cota['rendimento']/100),2, ',', ',');?> (-<?= $txAdm['valorAdmCota']?>%) = <?= number_format((($cota['valor']*$cota['rendimento']/100)*(1-$txAdm['valorAdmCota']/100)),2, ',', ',');?></td>
+	    </tr>
+	    <?php endforeach ?>	
+	  </tbody>
 		</table>
-<?php } ?>
+	<?php } ?>
   </div>
   <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
   	<?php if ($rendimentos) { ?>
@@ -121,24 +126,24 @@ Cliente: <?=$cliente['nome']?><br><br>
 		    <tr>
 		      <th scope="col">Tipo</th>
 		      <th scope="col">Taxa</th>
-		      <th scope="col">Total(US$)(Descontado taxa Administração)</th>
+		      <th scope="col">Valor(US$)(Descontado taxa Administração)</th>
+		      <th scope="col">Capital</th>
 		      <th scope="col">Data</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		  	<?php foreach ($rendimentos as $rendimento) : 
-			$data = DateTime::createFromFormat('Y-m-d', $cota['dataCompra']);
-			$data = $data->format('d/m/Y');  ?>
+		  	<?php foreach ($rendimentos as $rendimento) : ?>
 		    <tr>
 		      <td><?= $rendimento['tipo']?></td>
-			      <td><?= $rendimento['percentual']?>%</td>
-			      <td>$<?= number_format($rendimento['total'],2, ',', ',')?></td>
-			      <td><?= $rendimento['month']?>/<?= $rendimento['year']?></td>
+			  <td><?= $rendimento['percentual']?>%</td>
+			  <td>$<?= number_format($rendimento['valor'],2, ',', ',')?></td>
+			  <td>$<?= number_format($rendimento['capital'],2, ',', ',')?></td>
+			  <td><?= $rendimento['month']?>/<?= $rendimento['year']?></td>
 		    </tr>
 		    <?php endforeach ?>	
 		  </tbody>
 		</table>
-<?php } ?>
+	<?php } ?>
   </div>
 </div>
 

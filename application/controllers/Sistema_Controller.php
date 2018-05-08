@@ -27,5 +27,6 @@ class Sistema_Controller extends CI_Controller {
 		$sistema->valorAdmRend = $this->input->post('taxaRendimentos');
 		$sistema->diaInicialRendimento = $this->input->post('diaRendimento');
 		$this->Sistema_model->updateDados($sistema);
+		redirect('Admin_Controller/sistema');
 	}
 }

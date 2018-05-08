@@ -26,12 +26,14 @@ class Movimento_model extends CI_Model {
 			return $this->db->get()->result_array();
 		}
 
-		public function attStatusSaque(){
-			
+		public function attStatusSaque($status, $idmovimento){
+			$this->db->set('status', $status, FALSE);
+			$this->db->where('idmovimento', $idmovimento);
+			$this->db->update('movimento');
 		}
 
 		public function getSaquesPendentes(){
-			$this->db->select('nome, valor, data, tipo');
+			$this->db->select('nome, idconta, idmovimento, valor, data, tipo, status');
 			$this->db->from('movimento');
 			$this->db->where('status', 0);
 			$this->db->join('conta', 'idconta = conta_idconta');
@@ -43,7 +45,7 @@ class Movimento_model extends CI_Model {
 		}
 
 		public function getMySaquesPendentes($idusuario){
-			$this->db->select('valor, data, tipo');
+			$this->db->select('valor, idconta, idmovimento, data, tipo, status');
 			$this->db->from('movimento');
 			$this->db->where('status', 0);
 			$this->db->join('conta', 'idconta = conta_idconta');

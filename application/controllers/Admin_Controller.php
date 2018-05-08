@@ -16,6 +16,7 @@ class Admin_Controller extends CI_Controller {
 		$this->load->model('Sistema_model');
 		$this->load->model('Comissao_model');
 		$this->load->model('Banco_model');
+		$this->load->model('ContaSaque_model');
 	}
 	public function isUsuarioLogado(){
 		if(!$this->session->userdata('usuario_logado')){
@@ -34,13 +35,14 @@ class Admin_Controller extends CI_Controller {
 		$saquesPendentes = $this->Movimento_model->getSaquesPendentes();
 		// PEGANDO SALDO ADMIN E GERAL(SALDO SAQUE + INVESTIMENTOS + COTAS ATIVAS)
 		$capitalTotal = $this->Conta_model->getTotalCapital();
-		$capitalTotalAdmin = $this->Conta_model->getTotalCapitalAdmin($idusuario);
+		$capitalTotalAdmin = $this->Conta_model->getSaldoSaqueAdmin($idusuario);
 		$totalInvestimento = $this->Investimento_model->getTotalInvestimentos();
 		$totalInvestimentoAdmin = $this->Investimento_model->getTotalInvestimentosAdmin($idusuario);
 		$totalCotas = $this->Cota_model->getTotalCotas();
 		$totalCotasAdmin = $this->Cota_model->getTotalCotasAdmin($idusuario);
 		// SOMANDO EM UMA ÚNICA VARIÁVEL PARA EXIBIR (SALDO SAQUE + INVESTIMENTOS + COTAS ATIVAS)
 		$capitalTotal = $capitalTotal['total']+$totalInvestimento['total']+$totalCotas['total'];
+		$saldoSaqueAdmin = $capitalTotalAdmin['saldoSaque'];
 		$capitalTotalAdmin = $capitalTotalAdmin['saldoSaque']+$totalInvestimentoAdmin['total']+$totalCotasAdmin['total'];
 		
 		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
@@ -53,8 +55,10 @@ class Admin_Controller extends CI_Controller {
 		$rendimentosAdminMensais = $this->Rendimento_model->getSumAllRendimentosAdmin($idusuario);
 		$comissoes = $this->Comissao_model->getComissoes();
 		//$rendimentosAdminMensais = array_merge($rendimentosAdminMensais, $comissoes);
+
+		$txAdm = $this->Sistema_model->getTxAdmCota();
 		
-		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes, 'comissoes' => $comissoes, 'rendimentosBrutos' => $rendimentosBrutos, 'rendimentosAdminMensais' => $rendimentosAdminMensais, 'saquesPendentes' => $saquesPendentes);
+		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'saldoSaqueAdmin' => $saldoSaqueAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes, 'comissoes' => $comissoes, 'rendimentosBrutos' => $rendimentosBrutos, 'rendimentosAdminMensais' => $rendimentosAdminMensais, 'saquesPendentes' => $saquesPendentes, 'txAdm' => $txAdm);
 		$this->load->view('admin/index.php', $dados);
 	}
 
@@ -66,7 +70,11 @@ class Admin_Controller extends CI_Controller {
 
 	public function clientes(){
 		$clientes = $this->Cliente_model->getClientes();
-		$dados = array('clientes' => $clientes);
+		$saldoCotas = $this->Cota_model->getSaldoCotasAllClientes();
+		$saldoCotasFechadas = $this->Cota_model->getSaldoCotasFechadasAllClientes();
+		$saldoInvestimentos = $this->Investimento_model->getSaldoInvestimentosAllClientes();
+		$saldoInvestimentosEncerrados = $this->Investimento_model->getSaldoInvestimentosEncerradosAllClientes();
+		$dados = array('clientes' => $clientes, 'saldoCotas' => $saldoCotas, 'saldoCotasFechadas' => $saldoCotasFechadas, 'saldoInvestimentos' => $saldoInvestimentos, 'saldoInvestimentosEncerrados' => $saldoInvestimentosEncerrados);
 		$this->load->view('admin/clientes', $dados);
 	}
 
@@ -93,8 +101,42 @@ class Admin_Controller extends CI_Controller {
 		$cotas = $this->Cota_model->getMyCotas($idusuario);
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
 		$investimentos = $this->Investimento_model->getInvestimentosCliente($idusuario);
-		$dados = array('cliente' => $cliente, 'saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos, 'investimentos' => $investimentos);
+		$txAdm = $this->Sistema_model->getTxAdmCota();
+		$dados = array('cliente' => $cliente, 'saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos, 'investimentos' => $investimentos, 'txAdm' => $txAdm);
 		$this->load->view('admin/perfil_cliente', $dados);
+	}
+
+	public function mostrarDadosCliente()
+	{
+		# code...
+		$idcliente = $this->input->get('cliente');
+		$cliente = $this->Cliente_model->getCliente($idcliente);
+		$contaSaque = $this->ContaSaque_model->getContaSaque($cliente['idcliente']);
+		$bancos = $this->Banco_model->getBancos();
+		$dados = array('cliente' => $cliente, 'contaSaque' => $contaSaque, 'bancos' => $bancos);
+		$this->load->view('admin/dados_cliente', $dados);
+	}
+
+	public function updateDadosCliente()
+	{
+		# code...
+		$idcliente = $this->input->post('idCliente');
+		$email = $this->input->post('email');
+		$nome = $this->input->post('nome');
+		$this->Cliente_model->updateDadosCliente($idcliente, $email, $nome);
+		redirect('Admin_Controller/mostrarDadosCliente?cliente='.$idcliente);
+	}
+
+	public function updateContaSaqueCliente()
+	{
+		# code...
+		$contaSaque = new ContaSaque();
+		$contaSaque->banco_idbanco = $this->input->post('banco');
+		$contaSaque->agencia = $this->input->post('agencia');
+		$contaSaque->conta = $this->input->post('conta');
+		$contaSaque->tipo = $this->input->post('tipo');
+		$contaSaque->cliente_idcliente = $this->input->post('idClienteContaSaque');
+		$this->ContaSaque_model->updateContaSaque($contaSaque);
 	}
 
 	public function novaCota(){
@@ -105,14 +147,16 @@ class Admin_Controller extends CI_Controller {
 
 	public function cotas(){
 		$cotas = $this->Cota_model->getCotas();
-		$dados = array('cotas' => $cotas);
+		$txAdm = $this->Sistema_model->getTxAdmCota();
+		$dados = array('cotas' => $cotas, 'txAdm' => $txAdm);
 		$this->load->view('admin/cotas', $dados);
 	}
 
 	public function minhasCotas(){
 		$cotas = $this->Cota_model->getMyCotas($this->session->userdata('usuario_logado')['idusuario']);
-		$dados = array('cotas' => $cotas);
-		$this->load->view('admin/cotas', $dados);
+		$txAdm = $this->Sistema_model->getTxAdmCota();
+		$dados = array('cotas' => $cotas, 'txAdm' => $txAdm);
+		$this->load->view('cliente/cotas', $dados);
 	}
 
 	public function novoRendimento(){

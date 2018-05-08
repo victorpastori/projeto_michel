@@ -1,12 +1,12 @@
 <?php $this->load->view('cabecalhoAdmin');?>
 
-<form action="<?=base_url("index.php/Sistema_controller/updateDados")?>" method="post">
+<form action="<?=base_url("index.php/Sistema_Controller/updateDados")?>" method="post">
 	<div class="form-group">
-		<label for="inputinputTaxaCotas">Taxa de ADM rendimentos cotas</label>
+		<label for="inputinputTaxaCotas">Taxa de ADM rendimentos cotas (%)</label>
     	<input type="number" class="form-control" name="taxaCotas" id="inputinputTaxaCotas" aria-describedby="emailHelp" required value="<?= $valorAdmCota?>" disabled>
   	</div>
 	<div class="form-group">
-		<label for="inputTaxaRendimentos">Taxa de ADM rendimentos mensais</label>
+		<label for="inputTaxaRendimentos">Taxa de ADM rendimentos mensais (%)</label>
     	<input type="number" class="form-control" name="taxaRendimentos" id="inputTaxaRendimentos" aria-describedby="emailHelp" required value="<?= $valorAdmRend?>" disabled>
   	</div>
     <div class="form-group">

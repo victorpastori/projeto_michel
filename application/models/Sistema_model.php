@@ -20,5 +20,21 @@ class Sistema_model extends CI_Model {
 			$this->db->from('sistema');
 			return $this->db->get()->row_array();
 		}
+
+		public function getTxAdmRend()
+		{
+			# code...
+			$this->db->select('valorAdmRend');
+			$this->db->from('sistema');
+			return $this->db->get()->row_array();
+		}
+
+		public function getTxAdmCota()
+		{
+			# code...
+			$this->db->select('valorAdmCota');
+			$this->db->from('sistema');
+			return $this->db->get()->row_array();
+		}
 		
 }

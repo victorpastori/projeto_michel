@@ -14,6 +14,7 @@ class ContaSaque
  public $tipo;
  public $cliente_idcliente;
  public $banco_idbanco;
+ public $operacao;
 
 }
 

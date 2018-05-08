@@ -4,7 +4,8 @@
 
 	<div class="form-group">
 	    <label for="selectCliente">Cliente</label>
-	    <select class="form-control" id="selectCliente" name="cliente">
+	    <select class="form-control" id="selectCliente" name="cliente" required>
+	    	<option placeholder="Escolha um cliente"></option>
 		    <?php foreach ($clientes as $cliente) : ?>
 		
 				<option value="<?= $cliente['idcliente'] ?>"><?= $cliente['nome'] ?></option>
@@ -14,8 +15,8 @@
   	</div>
 
 	<div class="form-group">
-		<label for="inputValor">Valor</label>
-		<input class="form-control" type="number" name="valor" id="inputValor" min="1" required placeholder="Valor do depósito">
+		<label for="inputValor">Valor (US$)</label>
+		<input class="form-control" type="number" name="valor" id="inputValor" min="1" step=".01" required placeholder="Valor do depósito em DÓLARES(US$)">
 	</div>
 
 	<div class="form-group">

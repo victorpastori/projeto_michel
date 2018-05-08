@@ -30,7 +30,7 @@ class Investimento_model extends CI_Model {
 			$this->db->from('investimento');
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
-			$this->db->where('status !=', 2);
+			//$this->db->where('status !=', 2);
 			$this->db->order_by('data', 'DESC');
 			return $this->db->get()->result_array();
 		}
@@ -42,6 +42,26 @@ class Investimento_model extends CI_Model {
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
 			$this->db->where('status !=', 2);
 			return $this->db->get()->row_array();
+		}
+
+		public function getSaldoInvestimentosAllClientes(){
+			$this->db->select('nome, SUM(valor) as total');
+			$this->db->from('cliente');
+			$this->db->join('conta', 'idcliente = cliente_idcliente', 'left');
+			$this->db->join('investimento', 'idconta = conta_idconta', 'left');
+			$this->db->group_by('nome');
+			$this->db->order_by('nome', 'ASC');
+			return $this->db->get()->result_array();
+		}
+
+		public function getSaldoInvestimentosEncerradosAllClientes(){
+			$this->db->select('nome, SUM(valor) as total');
+			$this->db->from('cliente');
+			$this->db->join('conta', 'idcliente = cliente_idcliente', 'left');
+			$this->db->join('historico_investimento', 'idconta = conta_idconta', 'left');
+			$this->db->group_by('nome');
+			$this->db->order_by('nome', 'ASC');
+			return $this->db->get()->result_array();
 		}
 
 		public function getInvestimentosAtivos(){
@@ -69,9 +89,8 @@ class Investimento_model extends CI_Model {
 			# code...
 			$this->db->select('SUM(valor) as total');
 			$this->db->from('investimento');
-			$this->db->where('status = 0 or status = 1');
 			$this->db->join('conta', 'conta_idconta = idconta');
-			$this->db->where('cliente_usuario_idusuario', $idusuario);
+			$this->db->where('cliente_usuario_idusuario =', $idusuario);
 			return $this->db->get()->row_array();
 		}
 

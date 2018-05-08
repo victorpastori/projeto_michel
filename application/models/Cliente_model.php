@@ -26,6 +26,19 @@ class Cliente_model extends CI_Model {
 			return $this->db->get()->result_array();
 		}
 
+		public function getClientes2(){
+			$this->db->distinct();
+			$this->db->select('idcliente, idcota, idinvestimento, nome, saldoSaque, cota.valor as valorC, investimento.valor as valorI');
+			$this->db->from('cliente');
+			$this->db->join('conta', 'idcliente = cliente_idcliente', 'inner');
+			$this->db->join('cota', 'idconta = cota.conta_idconta', 'inner');
+			$this->db->join('investimento', 'cota.conta_idconta = investimento.conta_idconta', 'inner');
+			$this->db->where('cota.status = 1 and investimento.status != 2');
+			//$this->db->group_by('idconta');
+			$this->db->order_by('nome', 'ASC');
+			return $this->db->get()->result_array();
+		}
+
 		public function getCliente($idcliente){
 			$this->db->select('idcliente, nome, email, saldo, usuario_idusuario');
 			$this->db->from('cliente');
@@ -47,6 +60,15 @@ class Cliente_model extends CI_Model {
 			$this->db->set('email', $email);
 			$this->db->set('nome', $nome);
 			$this->db->where('usuario_idusuario', $idusuario);
+			$this->db->update('cliente');
+		}
+
+		public function updateDadosCliente($idcliente, $email, $nome)
+		{
+			# code...
+			$this->db->set('email', $email);
+			$this->db->set('nome', $nome);
+			$this->db->where('idcliente', $idcliente);
 			$this->db->update('cliente');
 		}
 		

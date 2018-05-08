@@ -19,6 +19,7 @@ class Clientes_Controller extends CI_Controller {
 		$this->load->model('Movimento_model');
 		$this->load->model('Rendimento_model');
 		$this->load->model('Investimento_model');
+		$this->load->model('Sistema_model');
 	}
 
 	public function isUsuarioLogado(){
@@ -37,7 +38,8 @@ class Clientes_Controller extends CI_Controller {
 		$movimentos = $this->Movimento_model->getMovimentosCliente($idusuario);
 		$cotas = $this->Cota_model->getMyCotas($idusuario);
 		$rendimentos = $this->Rendimento_model->getRendimentosCliente($idusuario);
-		$dados = array('saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos, 'investimentos' => $investimentos);
+		$txAdm = $this->Sistema_model->getTxAdmCota();
+		$dados = array('saldos' => $saldos , 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'saldoCotas' => $saldoCotas, 'saldoInvestimentos' => $saldoInvestimentos, 'investimentos' => $investimentos, 'txAdm' => $txAdm);
 		$this->load->view('cliente/index', $dados);
 	}
 
@@ -56,6 +58,7 @@ class Clientes_Controller extends CI_Controller {
 		$contaSaque->agencia = $this->input->post('agencia');
 		$contaSaque->conta = $this->input->post('conta');
 		$contaSaque->tipo = $this->input->post('tipo');
+		$contaSaque->operacao = $this->input->post('operacao');
 		if($this->existeUsuario($usuario->login)){
 			redirect('Admin_Controller/novoCliente');
 		}
@@ -100,7 +103,8 @@ class Clientes_Controller extends CI_Controller {
 
 	public function minhasCotas(){
 		$cotas = $this->Cota_model->getMyCotas($this->session->userdata('usuario_logado')['idusuario']);
-		$dados = array('cotas' => $cotas);
+		$txAdm = $this->Sistema_model->getTxAdmCota();
+		$dados = array('cotas' => $cotas, 'txAdm' => $txAdm);
 		$this->load->view('cliente/cotas', $dados);
 	}
 
@@ -153,6 +157,7 @@ class Clientes_Controller extends CI_Controller {
 		$contaSaque->conta = $this->input->post('conta');
 		$contaSaque->tipo = $this->input->post('tipo');
 		$contaSaque->cliente_idcliente = $cliente['idcliente'];
+		$contaSaque->operacao = $this->input->post('operacao');
 		$this->ContaSaque_model->updateContaSaque($contaSaque);
 	}
 

@@ -23,6 +23,15 @@ class Conta_model extends CI_Model {
 			return $result['idconta'];
 		}
 
+		public function getSaldoTotalConta()
+		{
+			# code...
+			$this->db->select('saldoSaque, SUM(cota.valor) as totalCota, SUM(investimento.valor) as total.investimento');
+			$this->db->from('conta, cota, investimento');
+			$this->db->where('idconta = cota.conta_idconta AND idconta = investimento.conta_idconta');
+			return $this->db->get()->result_array();
+		}
+
 
 		public function getConta($idusuario){
 			$this->db->select('*');
@@ -71,7 +80,7 @@ class Conta_model extends CI_Model {
 			
 		}
 
-		public function getTotalCapitalAdmin($idusuario)
+		public function getSaldoSaqueAdmin($idusuario)
 		{
 			# code...
 			$this->db->select('saldoSaque');

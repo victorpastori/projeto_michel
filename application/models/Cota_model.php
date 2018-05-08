@@ -8,7 +8,7 @@ class Cota_model extends CI_Model {
 		}
 
 		public function getCotas(){
-			$this->db->select('nome, valor, dataCompra, dataFechamento, rendimento');
+			$this->db->select('nome, valor, dataCompra, dataFechamento, rendimento, status');
 			$this->db->from('cota');
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->join('cliente', 'idcliente = cliente_idcliente');
@@ -33,6 +33,26 @@ class Cota_model extends CI_Model {
 			$this->db->join('conta', 'idconta = conta_idconta');
 			$this->db->where('cliente_usuario_idusuario', $idusuario);
 			return $this->db->get()->row_array();
+		}
+
+		public function getSaldoCotasAllClientes(){
+			$this->db->select('nome, SUM(valor) as total');
+			$this->db->from('cliente');
+			$this->db->join('conta', 'idcliente = cliente_idcliente', 'left');
+			$this->db->join('cota', 'idconta = conta_idconta', 'left');
+			$this->db->group_by('nome');
+			$this->db->order_by('nome', 'ASC');
+			return $this->db->get()->result_array();
+		}
+
+		public function getSaldoCotasFechadasAllClientes(){
+			$this->db->select('nome, SUM(valor) as total');
+			$this->db->from('cliente');
+			$this->db->join('conta', 'idcliente = cliente_idcliente', 'left');
+			$this->db->join('historico_cota', 'idconta = conta_idconta', 'left');
+			$this->db->group_by('nome');
+			$this->db->order_by('nome', 'ASC');
+			return $this->db->get()->result_array();
 		}
 
 		public function getCotasCliente($idcliente){

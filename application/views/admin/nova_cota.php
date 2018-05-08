@@ -5,6 +5,7 @@
 	<div class="form-group">
 	    <label for="selectCliente">Cliente</label>
 	    <select class="form-control" id="selectCliente" name="cliente">
+	    	<option placeholder="Escolha um cliente"></option>
 		    <?php foreach ($clientes as $cliente) : ?>
 		
 				<option value="<?= $cliente['idcliente'] ?>"><?= $cliente['nome'] ?></option>

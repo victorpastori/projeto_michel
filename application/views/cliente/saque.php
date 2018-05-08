@@ -24,8 +24,8 @@
 
 <form action="<?=base_url("index.php/Contas_Controller/solicitarSaque")?>" method="post">
 	<div class="form-group">
-		<label for="inputValor">Valor</label>
-    	<input type="number" class="form-control" name="valor" id="inputValor" aria-describedby="emailHelp" placeholder="Informe valor para saque">
+		<label for="inputValor">Valor (US$)</label>
+    	<input type="number" class="form-control" name="valor" min="1" step=".01" id="inputValor" aria-describedby="emailHelp" placeholder="Informe valor para saque em DÓLARES" required>
   	</div>
   	<button type="submit" class="btn btn-primary">Solicitar Saque</button>
 </form>
@@ -37,6 +37,7 @@
 		    <tr>
 		      <th scope="col">Valor</th>
 		      <th scope="col">Data</th>
+		      <th scope="col">Status</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -46,6 +47,11 @@
 				<tr>
 			      <td>$<?= number_format($saquePendente['valor'],2, ',', ',')?></td>
 			      <td><?= $data ?></td>
+			      <?php if ($saquePendente['status'] == 0) { ?>
+			      	<td>Pendente</td>
+			      <?php }else { ?>
+			      	<td>Aprovado</td>
+			      <?php  } ?>
 			    </tr>
 			<?php endforeach ?> 
 		  </tbody>

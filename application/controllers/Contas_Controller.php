@@ -10,6 +10,7 @@ class Contas_Controller extends CI_Controller {
 		$this->load->model('Investimento_model');
 		$this->load->model('Rendimento_model');
 		$this->load->model('Movimento_model');
+		$this->load->model('Sistema_model');
 		$this->load->library('Movimento');
 		$this->load->library('Investimento');
 		$this->load->library('Rendimento');
@@ -37,15 +38,29 @@ class Contas_Controller extends CI_Controller {
 			$movimento = new Movimento();
 			$movimento->valor =	$valorSaque;
 			$movimento->data = date("Y-m-d");
-			$movimento->status = 0;
+			// 0 - Pendente 
+			//1 - Efetuado
+			$movimento->status = 0; 
 			$movimento->conta_idconta = $conta['idconta'];
 			$movimento->tipo_movimento_idtipo_movimento = 2;
 			$this->Movimento_model->cadastrarMovimento($movimento);
 			$this->Conta_model->updateSaldoSaque($movimento->valor, $conta['idconta']);
-			$this->session->set_flashdata('saqueOk', 'Saque efetuado com sucesso');
+			$this->session->set_flashdata('saqueOk', 'Saque solicitado com sucesso');
 			redirect('Clientes_Controller/saque');
 		}
 		
+	}
+
+	public function aprovarSaque()
+	{
+		$idmovimento = $this->input->get('idmovimento');
+		$this->Movimento_model->attStatusSaque(2, $idmovimento);
+	}
+
+	public function cancelarSaque()
+	{
+		$idmovimento = $this->input->get('idmovimento');
+		$this->Movimento_model->attStatusSaque(3, $idmovimento);
 	}
 
 	public function realizarDeposito(){
@@ -75,12 +90,14 @@ class Contas_Controller extends CI_Controller {
 		$investimento->carenciaRestante = $carencia;
 		$investimento->conta_idconta = $idconta;
 		$this->Investimento_model->cadastrarInvestimento($investimento);
+		redirect('Admin_Controller/deposito');
 	}
 
 	// criar funcao exclusiva para admin que nao desconte 25% da tx adm
 	public function cadastrarRendimentos(){
 		$this->isAdmin();
-		$txAdm = 25;
+		$txAdm = $this->Sistema_model->getTxAdmRend();
+		$txAdm = $txAdm['valorAdmRend'];
 		$rendimentos = array();
 		$ren = $this->input->post('rendimento');
 		$contas = $this->Conta_model->getContas();
@@ -92,7 +109,7 @@ class Contas_Controller extends CI_Controller {
 			$rendimento->valor = $conta['saldoSaque']*$rendimento->percentual/100*(1-$txAdm/100);
 			$rendimento->data = $this->input->post('data');
 			$rendimento->conta_idconta = $conta['idconta'];
-			$rendimento->tipo_rendimento_idtipo_rendimento = 1;
+			$rendimento->tipo_rendimento_idtipo_rendimento = 2;
 			array_push($rendimentos, $rendimento);
 		}
 
@@ -132,9 +149,8 @@ class Contas_Controller extends CI_Controller {
 		$renFinal = $ren/100*(1-$txAdm/100);
 		$this->Conta_model->aplicarRendimentoAdmin($renFinal);
 		$this->Rendimento_model->cadastrarRendimento($rendimentos);
-		
-		// criar funcao exclusiva para admin que nao desconte 25% da tx adm
 		$this->aplicarRendimentos($renFinal, $invs);
+		$this->isRendimentoTrue();
 	}
 
 	public function aplicarRendimentos($rendimento, $investimentos){
@@ -147,6 +163,11 @@ class Contas_Controller extends CI_Controller {
 		}
 		
 
+	}
+
+	public function isRendimentoTrue(){
+		$this->load->model('IsRendimentoTrue_model');
+		$this->IsRendimentoTrue_model->novo();
 	}
 
 	public function atualizarSaldoSaque($valor){

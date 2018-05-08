@@ -45,9 +45,10 @@
 	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/clientes")?>">Listar Clientes</a>
 	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/novoCliente")?>">Cadastrar Cliente</a>
 	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/buscarCliente")?>">Buscar Cliente</a>
-	          <div class="dropdown-divider"></div>
-	          <a class="dropdown-item" href="<?= base_url("index.php/Admin_Controller/novoRendimento")?>">Cadastrar Rendimento</a>	
-	        </div>
+	          
+	      </li>
+	       <li class="nav-item">
+	        <a class="nav-link" href="<?= base_url("index.php/Admin_Controller/novoRendimento")?>">Cadastrar Rendimento</a>
 	      </li>
 	      <li class="nav-item">
 	        <a class="nav-link" href="<?= base_url("index.php/Admin_Controller/sistema")?>">Sistema</a>
