@@ -5,6 +5,8 @@
     } ?>
 
 <form action="<?= base_url("index.php/Clientes_Controller/cadastrarContaSaque")?>" method="post">
+	<div class="row align-items-center">
+		<div class="col-9">
 	<div class="form-group">
 	    <label for="selectBanco">Banco</label>
 	    <select class="form-control" id="selectBanco" name="banco" onchange="mostraOperacao();">
@@ -16,16 +18,18 @@
 	    </select>
   	</div>
 	<div class="form-group">
-		<label for="inputAgencia">Agencia 
-      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Introduza o código que identifica a agência do seu banco. Informe apenas os números antes do dígito. EX: Se sua agência é 1234-5 digite 1234.">?</button> 
-    </label>
-    	<input type="text" class="form-control" name="agencia" id="inputAgencia" aria-describedby="emailHelp" placeholder="Informe o número de sua agência">
+		<label for="inputAgencia">Agencia(sem digito) </label>
+    	<input type="text" class="form-control" name="agencia" id="inputAgencia" aria-describedby="emailHelp" placeholder="Informe o número de sua agência sem o digito)">
   	</div>
-  	<div class="form-group">
-		<label for="inputConta">Conta
-      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Informe todo o número da conta, inclusive o dígito separado por hífen. Ex: Se sua conta é 12345-6 informe exatamente assim. Se o número da sua conta contem um X, substitua esta letra por um zero (0). Se sua conta possui o cógigo da transação para conta corrente ou poupança, não é necessário colocar, pois você já informou qual o tipo da conta.">?</button> 
-    </label>
+  	<div class="form-row">
+  	<div class="col-3 form-group">
+		<label for="inputConta">Conta</label>
     	<input type="text" class="form-control" name="conta" id="inputConta" aria-describedby="emailHelp" placeholder="Informe o número de sua conta">
+  	</div>
+  	<div class="col-1 form-group">
+  		<label for="inputDigito">Digito</label>
+    	<input type="text" class="form-control" name="digito" id="inputDigito" >
+  	</div>
   	</div>
 
   	<div class="form-group">
@@ -50,6 +54,8 @@
 	    </select>
   	</div>
   	<button type="submit" class="btn btn-primary">Cadastrar Conta Saque</button>
+  	</div>
+  	</div>
 </form>
 
 

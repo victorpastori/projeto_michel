@@ -52,18 +52,23 @@ class Clientes_Controller extends CI_Controller {
 		$cliente = new Cliente();
 		$cliente->nome = $this->input->post('nome');
 		$cliente->email = $this->input->post('email');
-		$cliente->cpf = $this->input->post('cpf');
+		$cliente->cpf = $this->input->post('txtCPF');
+		$cliente->telefone = $this->input->post('telefone');
+		$cliente->celular = $this->input->post('celular');
 		$contaSaque = new ContaSaque();
 		$contaSaque->banco_idbanco = $this->input->post('banco');
 		$contaSaque->agencia = $this->input->post('agencia');
 		$contaSaque->conta = $this->input->post('conta');
 		$contaSaque->tipo = $this->input->post('tipo');
 		$contaSaque->operacao = $this->input->post('operacao');
+		$contaSaque->digito = $this->input->post('digito');
 		if($this->existeUsuario($usuario->login)){
+			$this->session->set_flashdata('error', 'Login já existente no sistema! Use outro Email!');
 			redirect('Admin_Controller/novoCliente');
 		}
 
 		if($this->existeCpf($cliente->cpf)){
+			$this->session->set_flashdata('error', 'CPF já cadastrado no sistema!');
 			redirect('Admin_Controller/novoCliente');
 		}
 		
@@ -92,6 +97,7 @@ class Clientes_Controller extends CI_Controller {
 		$conta->cliente_idcliente = $idcliente;
 		$conta->cliente_usuario_idusuario = $idusuario;
 		$this->Conta_model->cadastrarConta($conta);
+		$this->session->set_flashdata('success', 'Cliente cadastrado com sucesso!');
 		redirect('Admin_Controller/clientes');
 	}
 
@@ -158,7 +164,10 @@ class Clientes_Controller extends CI_Controller {
 		$contaSaque->tipo = $this->input->post('tipo');
 		$contaSaque->cliente_idcliente = $cliente['idcliente'];
 		$contaSaque->operacao = $this->input->post('operacao');
+		$contaSaque->digito = $this->input->post('digito');
 		$this->ContaSaque_model->updateContaSaque($contaSaque);
+		$this->session->set_flashdata('success', 'Conta Saque atualizada!');
+		redirect('Clientes_Controller/minhaConta');
 	}
 
 	public function alterarSenha()
@@ -173,6 +182,7 @@ class Clientes_Controller extends CI_Controller {
 		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
 		$senha = md5($this->input->post('senha'));
 		$this->Usuario_model->updateSenha($idusuario, $senha);
+		$this->session->set_flashdata('success', 'Senha alterada com sucesso!');
 		redirect('Clientes_Controller/minhaConta');
 	}
 
@@ -183,6 +193,9 @@ class Clientes_Controller extends CI_Controller {
 		$email = $this->input->post('email');
 		$nome = $this->input->post('nome');
 		$this->Cliente_model->updateDados($idusuario, $email, $nome);
+		$this->Usuario_model->updateDados($idusuario, $email);
+		$this->session->set_flashdata('success', 'Dados atualizados com sucesso!');
+		redirect('Clientes_Controller/minhaConta');
 	}
 
 	public function isAdmin()

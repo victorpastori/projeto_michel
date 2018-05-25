@@ -71,5 +71,14 @@ class Cliente_model extends CI_Model {
 			$this->db->where('idcliente', $idcliente);
 			$this->db->update('cliente');
 		}
+
+		public function getIDuserByCliente($idcliente)
+		{
+			# code...
+			$this->db->select('usuario_idusuario');
+			$this->db->from('cliente');
+			$this->db->where('idcliente', $idcliente);
+			return $this->db->get()->row_array();
+		}
 		
 }

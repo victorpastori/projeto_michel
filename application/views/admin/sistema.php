@@ -1,5 +1,5 @@
 <?php $this->load->view('cabecalhoAdmin');?>
-
+<h2>Dados do sistema</h2>
 <form action="<?=base_url("index.php/Sistema_Controller/updateDados")?>" method="post">
 	<div class="form-group">
 		<label for="inputinputTaxaCotas">Taxa de ADM rendimentos cotas (%)</label>

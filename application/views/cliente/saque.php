@@ -21,7 +21,7 @@
  ?>
 </div>
 <?php   } ?>    
-
+<h2>Solicitar saque</h2>
 <form action="<?=base_url("index.php/Contas_Controller/solicitarSaque")?>" method="post">
 	<div class="form-group">
 		<label for="inputValor">Valor (US$)</label>

@@ -55,12 +55,29 @@ class Contas_Controller extends CI_Controller {
 	{
 		$idmovimento = $this->input->get('idmovimento');
 		$this->Movimento_model->attStatusSaque(2, $idmovimento);
+		$this->session->set_flashdata('success', 'Saque aprovado!');
+		redirect('Admin_Controller');
 	}
 
 	public function cancelarSaque()
 	{
 		$idmovimento = $this->input->get('idmovimento');
 		$this->Movimento_model->attStatusSaque(3, $idmovimento);
+		$this->session->set_flashdata('success', 'Saque cancelado com sucesso!');
+		redirect('Admin_Controller');
+	}
+
+	public function lancarScalpins()
+	{
+		$movimento = new Movimento();
+		$movimento->valor =	$this->input->post('valor');
+		$movimento->data = date("Y-m-d");
+		$movimento->status = 1;
+		$movimento->conta_idconta = 1;
+		$movimento->tipo_movimento_idtipo_movimento = 4;
+		$this->Movimento_model->cadastrarMovimento($movimento);
+		$this->session->set_flashdata('success', 'Lançamento Scalpin e Operções Normais realizado!');
+		redirect('Admin_Controller');
 	}
 
 	public function realizarDeposito(){
@@ -90,6 +107,7 @@ class Contas_Controller extends CI_Controller {
 		$investimento->carenciaRestante = $carencia;
 		$investimento->conta_idconta = $idconta;
 		$this->Investimento_model->cadastrarInvestimento($investimento);
+		$this->session->set_flashdata('success', 'Depósito de Investimento realizado com sucesso!');
 		redirect('Admin_Controller/deposito');
 	}
 
@@ -106,6 +124,7 @@ class Contas_Controller extends CI_Controller {
 			$rendimento->percentual = $ren;
 			$rendimento->capital = $conta['saldoSaque'];
 			$rendimento->valorBruto = $conta['saldoSaque']*$rendimento->percentual/100;
+			$rendimento->rentabilidadeLiquida = $rendimento->percentual*(1-$txAdm/100);
 			$rendimento->valor = $conta['saldoSaque']*$rendimento->percentual/100*(1-$txAdm/100);
 			$rendimento->data = $this->input->post('data');
 			$rendimento->conta_idconta = $conta['idconta'];
@@ -119,6 +138,7 @@ class Contas_Controller extends CI_Controller {
 			$rendimento->percentual = $ren;
 			$rendimento->capital = $investimento['valor'];
 			$rendimento->valorBruto = $investimento['valor']*$rendimento->percentual/100;
+			$rendimento->rentabilidadeLiquida = $rendimento->percentual*(1-$txAdm/100);
 			$rendimento->valor = $investimento['valor']*$rendimento->percentual/100*(1-$txAdm/100);
 			$rendimento->data = date("Y-m-d");
 			$rendimento->conta_idconta = $investimento['conta_idconta'];
@@ -134,9 +154,12 @@ class Contas_Controller extends CI_Controller {
 			$data2 = new DateTime(date("Y-m-d"));
 			$intervalo = $data2->diff($data1);
 			$rendimento = new Rendimento();
-			$rendimento->percentual = $ren/2;
+			$rendP = $this->calcularRendimentoParcial($investimento, $ren);
+			var_dump($rendP);
+			$rendimento->percentual = $rendP;
 			$rendimento->capital = $investimento['valor'];
 			$rendimento->valorBruto = $investimento['valor']*$rendimento->percentual/100;
+			$rendimento->rentabilidadeLiquida = $rendimento->percentual*(1-$txAdm/100);
 			$rendimento->valor = $investimento['valor']*$rendimento->percentual/100*(1-$txAdm/100);
 			$rendimento->data = date("Y-m-d");
 			$rendimento->conta_idconta = $investimento['conta_idconta'];
@@ -151,6 +174,21 @@ class Contas_Controller extends CI_Controller {
 		$this->Rendimento_model->cadastrarRendimento($rendimentos);
 		$this->aplicarRendimentos($renFinal, $invs);
 		$this->isRendimentoTrue();
+		$this->session->set_flashdata('success', 'Rendimentos lançados com sucesso!');
+		redirect('Admin_Controller');
+	}
+
+	public function calcularRendimentoParcial($investimento, $rendimento)
+	{
+		# code...
+		$data1 = new DateTime($investimento['data']);
+		$data2 = new DateTime(date("Y-m-d"));
+
+		$intervalo = $data2->diff( $data1 );
+		var_dump($intervalo->days);
+		$fracaoRend = pow(1+1, $intervalo->days/30) - 1;
+		var_dump($fracaoRend);
+		return $rendimento*$fracaoRend;
 	}
 
 	public function aplicarRendimentos($rendimento, $investimentos){

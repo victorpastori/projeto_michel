@@ -1,6 +1,6 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
 
-Cliente: <?=$cliente['nome']?><br><br>
+<h3>Cliente: <?=$cliente['nome']?></h3><br>
 <a href="<?= base_url("index.php/Admin_Controller/mostrarDadosCliente?cliente=".$cliente['idcliente'])?>" class="btn btn-success">Dados Cliente</a>
 <br>
 
@@ -125,9 +125,10 @@ Cliente: <?=$cliente['nome']?><br><br>
 		  <thead>
 		    <tr>
 		      <th scope="col">Tipo</th>
-		      <th scope="col">Taxa</th>
-		      <th scope="col">Valor(US$)(Descontado taxa Administração)</th>
-		      <th scope="col">Capital</th>
+		      <th scope="col">Valor Aplicado</th>
+		      <th scope="col">Rentabilidade</th>
+		      <th scope="col">Rentabilidade Liquida</th>
+		      <th scope="col">Valor(US$)</th>
 		      <th scope="col">Data</th>
 		    </tr>
 		  </thead>
@@ -135,9 +136,10 @@ Cliente: <?=$cliente['nome']?><br><br>
 		  	<?php foreach ($rendimentos as $rendimento) : ?>
 		    <tr>
 		      <td><?= $rendimento['tipo']?></td>
+		      <td>$<?= number_format($rendimento['capital'],2, ',', ',')?></td>
 			  <td><?= $rendimento['percentual']?>%</td>
+			  <td><?= $rendimento['rentabilidadeLiquida']?>%</td>
 			  <td>$<?= number_format($rendimento['valor'],2, ',', ',')?></td>
-			  <td>$<?= number_format($rendimento['capital'],2, ',', ',')?></td>
 			  <td><?= $rendimento['month']?>/<?= $rendimento['year']?></td>
 		    </tr>
 		    <?php endforeach ?>	

@@ -136,9 +136,10 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">Tipo</th>
-		      <th scope="col">Taxa</th>
-		      <th scope="col">Valor(US$)(Descontado taxa Administração)</th>
-		      <th scope="col">Capital</th>
+		      <th scope="col">Valor Aplicado</th>
+		      <th scope="col">Rentabilidade</th>
+		      <th scope="col">Rentabilidade Líquida</th>
+		      <th scope="col">Valor(US$)</th>
 		      <th scope="col">Data</th>
 		    </tr>
 		  </thead>
@@ -146,9 +147,10 @@
 		  	<?php foreach ($rendimentos as $rendimento) : ?>
 				<tr>
 			      <td><?= $rendimento['tipo']?></td>
-			      <td><?= $rendimento['percentual']?>%</td>
-			      <td>$<?= number_format($rendimento['valor'],2, ',', ',')?></td>
 			  	  <td>$<?= number_format($rendimento['capital'],2, ',', ',')?></td>
+			      <td><?= $rendimento['percentual']?>%</td>
+			      <td><?= $rendimento['rentabilidadeLiquida']?>%</td>
+			      <td>$<?= number_format($rendimento['valor'],2, ',', ',')?></td>
 			      <td><?= $rendimento['month']?>/<?= $rendimento['year']?></td>
 			    </tr>
 			<?php endforeach ?> 

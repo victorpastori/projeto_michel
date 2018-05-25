@@ -1,5 +1,5 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
-
+<h2>Listagem de cotas</h2>
 	<table id="my-table" class="table">
 	  <thead>
 	    <tr>

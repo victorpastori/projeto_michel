@@ -31,6 +31,14 @@ class Usuario_model extends CI_Model {
 		    return $usuario;
 		}
 
+		public function updateDados($idusuario, $email)
+		{
+			# code...
+			$this->db->set('login', $email);
+			$this->db->where('idusuario', $idusuario);
+			$this->db->update('usuario');
+		}
+
 		public function autenticar(){
 			
 		}

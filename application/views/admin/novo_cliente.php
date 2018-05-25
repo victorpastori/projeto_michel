@@ -1,5 +1,5 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
-
+<h2>Cadastro de novo cliente</h2>
 <form action="<?= base_url("index.php/Clientes_Controller/cadastrarCliente")?>" method="post">
 	<div class="form-group">
 		<label for="inputNome">Nome</label>
@@ -15,7 +15,14 @@
 		<label for="inputEmail">E-mail</label>
 		<input class="form-control" type="email" name="email" id="inputEmail" required placeholder="Informe um e-mail válido">
 	</div>
-
+	<div class="form-group">
+		<label for="telefone">Telefone</label>
+		<input type="text" name="telefone" id="telefone" class="form-control input-medium bfh-phone" data-format=" (dd) dddd-dddd">
+	</div>
+	<div class="form-group">
+		<label for="telefone">Celular</label>
+		<input type="text" name="celular" id="celular" class="form-control input-medium bfh-phone" data-format=" (dd) ddddd-dddd">
+	</div>
 	<div class="form-group">
 		<label for="inputSenha">Senha</label>
 		<input class="form-control" type="password" name="senha" id="inputSenha" required placeholder="Informe senha para acesso">
@@ -32,18 +39,19 @@
 	    </select>
   	</div>
 	<div class="form-group">
-		<label for="inputAgencia">Agencia 
-			<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Introduza o código que identifica a agência do seu banco. Informe apenas os números antes do dígito. EX: Se sua agência é 1234-5 digite 1234.">?</button> 
-		</label>
-    	<input type="text" class="form-control" name="agencia" id="inputAgencia" aria-describedby="emailHelp" placeholder="Informe o número de sua agência">
+		<label for="inputAgencia">Agencia (sem digito)</label>
+    	<input type="text" class="form-control" name="agencia" id="inputAgencia" aria-describedby="emailHelp" placeholder="Informe o número de sua agência sem o digito">
   	</div>
-  	<div class="form-group">
-		<label for="inputConta">Conta
-			<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Informe todo o número da conta, inclusive o dígito separado por hífen. Ex: Se sua conta é 12345-6 informe exatamente assim. Se o número da sua conta contem um X, substitua esta letra por um zero (0). Se sua conta possui o cógigo da transação para conta corrente ou poupança, não é necessário colocar, pois você já informou qual o tipo da conta.">?</button> 
-		</label>
+  	<div class="form-row">
+  	<div class="col-3 form-group">
+		<label for="inputConta">Conta</label>
     	<input type="text" class="form-control" name="conta" id="inputConta" aria-describedby="emailHelp" placeholder="Informe o número de sua conta">
   	</div>
-
+  	<div class="col-1 form-group">
+  		<label for="inputDigito">Digito</label>
+    	<input type="text" class="form-control" name="digito" id="inputDigito" >
+  	</div>
+  	</div>
   	<div class="form-group">
 		<label style="display: none" for="inputOperacao" id="lblOperacao" disabled="true">Operação
 			<button style="display: none" type="button" class="btn btn-secondary" id="btnOperacao" disabled="true" data-toggle="tooltip" data-html="true" data-placement="top" title="

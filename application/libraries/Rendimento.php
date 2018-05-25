@@ -10,6 +10,7 @@ class Rendimento
  
  public $idrendimento;
  public $percentual;
+ public $rentabilidadeLiquida;
  public $capital;
  public $valor;
  public $valorBruto;

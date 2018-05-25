@@ -102,5 +102,19 @@ class Investimento_model extends CI_Model {
 			$this->db->where('status = 0 or status = 1');
 			return $this->db->get()->row_array();
 		}
+
+		public function getTotalInvestimentosAtivos(){
+			$this->db->select('SUM(valor) as total');
+			$this->db->from('investimento');
+			$this->db->where('status = 1');
+			return $this->db->get()->row_array();
+		}
+
+		public function getTotalInvestimentosInativos(){
+			$this->db->select('SUM(valor) as total');
+			$this->db->from('investimento');
+			$this->db->where('status = 0');
+			return $this->db->get()->row_array();
+		}
 		
 }

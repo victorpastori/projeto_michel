@@ -33,6 +33,7 @@ class Cotas_Controller extends CI_Controller {
 		$cota->conta_idconta = $idconta['idconta'];
 		$cota->status = 1;
 		$this->Cota_model->cadastrarCota($cota);
+		$this->session->set_flashdata('success', 'Cota cadastrada!');
 		redirect('Admin_Controller/cotas');
 	}
 

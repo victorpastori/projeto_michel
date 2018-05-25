@@ -3,9 +3,10 @@
     } else if ($this->session->userdata('usuario_logado')['tipo'] == 1){
       $this->load->view('cabecalhoAdmin');
     } ?>
-<h2>Minha conta</h2>
-<form action="<?=base_url("index.php/Clientes_Controller/updateDados")?>" method="post">
+<h2>Dados cliente</h2>
+<form action="<?=base_url("index.php/Admin_Controller/updateDadosCliente")?>" method="post">
 	<div class="form-group">
+    <input type="hidden" class="form-control"  name="idCliente" id="inputId" value="<?= $cliente['idcliente'] ?>">
 		<label for="inputNome">Nome</label>
     	<input type="text" class="form-control" name="nome" id="inputNome" aria-describedby="emailHelp" required value="<?= $cliente['nome']?>" disabled>
     	
@@ -16,7 +17,7 @@
   	</div>
   	<button type="submit" id="btnSalvar" class="btn btn-success" disabled>Salvar</button>
   	<input type="button" id="btnEditar" class="btn btn-primary" onclick="changeForm()" value="Editar">
-  	<a href="<?= base_url("index.php/Clientes_Controller/alterarSenha")?>" class="btn btn-danger">Alterar Senha</a>
+  	<a href="<?= base_url("index.php/Admin_Controller/alterarSenhaCliente?idcliente=".$cliente['idcliente'])?>" class="btn btn-danger">Alterar Senha</a>
 </form>
 
 <br>
@@ -24,7 +25,7 @@
 <?php if (!$contaSaque) { ?>
   <a href="<?=base_url("index.php/Clientes_Controller/contaSaque")?>" class="btn btn-primary">Cadastrar Conta Saque</a>
 <?php } else { ?>
-<form action="<?=base_url("index.php/Clientes_Controller/updateContaSaque")?>" method="post">
+<form action="<?=base_url("index.php/Admin_Controller/updateContaSaqueCliente")?>" method="post">
   <div class="form-group">
       <label for="selectBanco">Banco</label>
       <select class="form-control" id="selectBanco" name="banco" required disabled onchange="mostraOperacao();">
@@ -40,24 +41,25 @@
       </select>
     </div>
   <div class="form-group">
+    <input type="hidden" name="idClienteContaSaque" value="<?= $contaSaque['cliente_idcliente'] ?>">
     <label for="inputAgencia">Agencia(sem digito)</label>
-      <input type="text" class="form-control" name="agencia" id="inputAgencia" value="<?= $contaSaque['agencia'] ?>" required aria-describedby="emailHelp" placeholder="Informe o número de sua agência sem o digito" disabled>
+      <input type="text" class="form-control" name="agencia" id="inputAgencia" value="<?= $contaSaque['agencia'] ?>" required aria-describedby="emailHelp" placeholder="Informe o número de sua agência sem o digito)" disabled>
     </div>
     <div class="form-row">
     <div class="col-3 form-group">
     <label for="inputConta">Conta</label>
-      <input type="text" class="form-control" name="conta" id="inputConta" value="<?= $contaSaque['conta'] ?>" required aria-describedby="emailHelp" disabled  placeholder="Informe o número de sua conta">
+      <input type="text" class="form-control" name="conta" id="inputConta" value="<?= $contaSaque['conta'] ?>" required aria-describedby="emailHelp" placeholder="Informe o número de sua conta" disabled>
     </div>
     <div class="col-1 form-group">
       <label for="inputDigito">Digito</label>
-      <input type="text" class="form-control" name="digito"  value="<?= $contaSaque['digito'] ?>" id="inputDigito" disabled  >
+      <input type="text" class="form-control" name="digito" value="<?= $contaSaque['digito'] ?>" id="inputDigito" disabled >
     </div>
     </div>
 
     <?php if ($contaSaque['operacao']) { ?>
       <div class="form-group">
     <label for="inputOperacao" id="lblOperacao" >Operação
-      <button  type="button" class="btn btn-secondary" id="btnOperacao"  data-toggle="tooltip" data-html="true" data-placement="top" title="
+      <button type="button" class="btn btn-secondary" id="btnOperacao" data-toggle="tooltip" data-html="true" data-placement="top" title="
       001 – Conta Corrente de Pessoa Física</br>
       002 – Conta Simples de Pessoa Física</br>
       003 – Conta Corrente de Pessoa Jurídica</br>
@@ -66,7 +68,7 @@
       013 – Poupança de Pessoa Física</br>
       022 – Poupança de Pessoa Jurídica</br>">?</button> 
     </label>
-      <input  type="text" class="form-control" name="operacao" id="inputOperacao" disabled="true" aria-describedby="emailHelp" disabled="true" placeholder="Informe a operação" value="<?= $contaSaque['operacao'] ?>">
+      <input type="text" disabled="true" class="form-control" name="operacao" id="inputOperacao" disabled="true" aria-describedby="emailHelp" placeholder="Informe a operação" value="<?= $contaSaque['operacao'] ?>">
     </div>
 
     <?php } else { ?>
@@ -86,6 +88,7 @@
     </div>
     <?php } ?>
     
+
     <div class="form-group">
       <label for="selectTipo">Tipo</label>
       <select class="form-control" id="selectTipo" name="tipo" required disabled>
@@ -123,5 +126,6 @@
       document.getElementById('btnSalvarConta').disabled = false;
   }
   </script>
+
 
 <?php $this->load->view('rodape'); ?>

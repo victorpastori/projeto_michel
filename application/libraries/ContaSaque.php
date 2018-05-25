@@ -8,13 +8,14 @@ class ContaSaque
    # code...
  }
 
- public $idconta;
+ //public $idconta;
  public $agencia;
  public $conta;
  public $tipo;
  public $cliente_idcliente;
  public $banco_idbanco;
  public $operacao;
+ public $digito;
 
 }
 

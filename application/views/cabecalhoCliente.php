@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="<?= base_url("css/bootstrap.min.css")?>" />
+	<link rel="stylesheet" href="<?= base_url("css/bootstrap-form-helpers.min.css")?>" />
 	<title></title>
 </head>
 <body>
@@ -36,4 +37,20 @@
 	<div class="container">
 		
 
-	
+	<?php if ($this->session->flashdata('error')) { ?>
+
+	<div class="alert alert-danger" role="alert">
+	  <?php 
+		echo $this->session->flashdata('error');
+	 ?>
+	</div>
+	<?php   } ?>
+
+	<?php if ($this->session->flashdata('success')) { ?>
+
+	<div class="alert alert-success" role="success">
+	  <?php 
+		echo $this->session->flashdata('success');
+	 ?>
+	</div>
+	<?php   } ?> 

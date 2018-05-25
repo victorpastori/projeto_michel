@@ -7,6 +7,7 @@ class Admin_Controller extends CI_Controller {
 		parent::__construct();
 		$this->isUsuarioLogado();
 		$this->isAdmin();
+		$this->load->library('ContaSaque');
 		$this->load->model('Cliente_model');
 		$this->load->model('Cota_model');
 		$this->load->model('Conta_model');
@@ -17,6 +18,7 @@ class Admin_Controller extends CI_Controller {
 		$this->load->model('Comissao_model');
 		$this->load->model('Banco_model');
 		$this->load->model('ContaSaque_model');
+		$this->load->model('Usuario_model');
 	}
 	public function isUsuarioLogado(){
 		if(!$this->session->userdata('usuario_logado')){
@@ -68,6 +70,10 @@ class Admin_Controller extends CI_Controller {
 		$this->load->view('admin/deposito', $dados);
 	}
 
+	public function cadastrarScalpin(){
+		$this->load->view('admin/scalpins.php');
+	}
+
 	public function clientes(){
 		$clientes = $this->Cliente_model->getClientes();
 		$saldoCotas = $this->Cota_model->getSaldoCotasAllClientes();
@@ -106,6 +112,27 @@ class Admin_Controller extends CI_Controller {
 		$this->load->view('admin/perfil_cliente', $dados);
 	}
 
+	public function alterarSenhaCliente()
+	{
+		# code...
+		$idcliente = $this->input->get('idcliente');
+		$dados = array('idcliente' => $idcliente);
+		$this->load->view('admin/alterar_senha_cliente', $dados);
+	}
+
+	public function updateSenhaCliente()
+	{
+		# code...
+		$idcliente = $this->input->post('idCliente');
+		$idusuario = $this->Cliente_model->getIDuserByCliente($idcliente);
+		$senha = md5($this->input->post('senha'));		
+		var_dump($idcliente);
+		var_dump($idusuario);
+		$this->Usuario_model->updateSenha($idusuario['usuario_idusuario'], $senha);
+		$this->session->set_flashdata('success', 'Senha alterada com sucesso!');
+		redirect('Clientes_Controller/minhaConta');
+	}
+
 	public function mostrarDadosCliente()
 	{
 		# code...
@@ -123,7 +150,10 @@ class Admin_Controller extends CI_Controller {
 		$idcliente = $this->input->post('idCliente');
 		$email = $this->input->post('email');
 		$nome = $this->input->post('nome');
+		$idusuario = $this->Cliente_model->getIDuserByCliente($idcliente);
 		$this->Cliente_model->updateDadosCliente($idcliente, $email, $nome);
+		$this->Usuario_model->updateDados($idusuario['usuario_idusuario'], $email);
+		$this->session->set_flashdata('success', 'Dados atualizados com sucesso!');
 		redirect('Admin_Controller/mostrarDadosCliente?cliente='.$idcliente);
 	}
 
@@ -131,12 +161,18 @@ class Admin_Controller extends CI_Controller {
 	{
 		# code...
 		$contaSaque = new ContaSaque();
+		$idCliente = $this->input->post('idClienteContaSaque');
 		$contaSaque->banco_idbanco = $this->input->post('banco');
 		$contaSaque->agencia = $this->input->post('agencia');
 		$contaSaque->conta = $this->input->post('conta');
 		$contaSaque->tipo = $this->input->post('tipo');
-		$contaSaque->cliente_idcliente = $this->input->post('idClienteContaSaque');
+		$contaSaque->operacao = $this->input->post('operacao');
+		$contaSaque->digito = $this->input->post('digito');
+		$contaSaque->cliente_idcliente = $idCliente;
+		var_dump($contaSaque);
 		$this->ContaSaque_model->updateContaSaque($contaSaque);
+		$this->session->set_flashdata('success', 'Conta Saque atualizada!');
+		redirect('Admin_Controller/mostrarDadosCliente?cliente='.$idCliente);
 	}
 
 	public function novaCota(){

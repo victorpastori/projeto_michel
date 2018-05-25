@@ -96,4 +96,12 @@ class Conta_model extends CI_Model {
 			$this->db->from('conta');
 			return $this->db->get()->row_array();
 		}
+
+		public function getCapital()
+		{
+			# code...
+			$this->db->select('SUM(saldoSaque) as total');
+			$this->db->from('conta');
+			return $this->db->get()->row_array();
+		}
 }

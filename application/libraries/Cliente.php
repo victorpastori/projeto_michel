@@ -13,6 +13,8 @@ class Cliente
  public $email;
  public $cpf;
  public $usuario_idusuario;
+ public $telefone;
+ public $celular;
  
 
 }

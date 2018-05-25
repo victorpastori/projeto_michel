@@ -16,7 +16,7 @@ class Rendimento_model extends CI_Model {
 		}
 
 		public function getRendimentosCliente($idusuario){
-			$this->db->select('valor , MONTH(data) as month, YEAR(data) as year, tipo, percentual, capital');
+			$this->db->select('valor , MONTH(data) as month, YEAR(data) as year, tipo, percentual, rentabilidadeLiquida, capital');
 			$this->db->from('rendimento');
 			$this->db->join('tipo_rendimento', 'idtipo_rendimento = tipo_rendimento_idtipo_rendimento');
 			$this->db->join('conta', 'idconta = conta_idconta');

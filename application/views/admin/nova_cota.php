@@ -1,5 +1,5 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
-
+<h2>Cadastrar nova cota</h2>
 <form action="<?= base_url("index.php/Cotas_Controller/cadastrarCota")?>" method="post">
 
 	<div class="form-group">

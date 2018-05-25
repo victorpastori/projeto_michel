@@ -3,7 +3,7 @@
     } else if ($this->session->userdata('usuario_logado')['tipo'] == 1){
       $this->load->view('cabecalhoAdmin');
     } ?>
-
+<h2>Minhas cotas</h2>
 	<table id="my-table" class="table">
 	  <thead>
 	    <tr>

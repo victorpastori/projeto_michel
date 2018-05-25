@@ -1,5 +1,5 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
-
+<h2>Depósito de investimento</h2>
 <form action="<?= base_url("index.php/Contas_Controller/realizarDeposito")?>" method="post">
 
 	<div class="form-group">
