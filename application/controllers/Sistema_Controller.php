@@ -43,15 +43,17 @@ class Sistema_Controller extends CI_Controller {
 		# code...
 		$this->load->model('Investimento_model');
 		$this->load->model('Conta_model');
+		$cotasAberto = $this->getCotasAberto();
 		$capitalAtual = $this->input->post('capitalAtual');
 		$capital = $this->capital();
 		$investimentos = $this->getInvestimentosInativos();
 		$sumRendParciaisInv = $this->sumRendParciaisInv($investimentos);
 		// Calculo capital no sistema
 		$totalInvestimentosInativos = $this->Investimento_model->getTotalInvestimentosInativos();
-		$lucro = $this->lucro($capitalAtual, $capital+$totalInvestimentosInativos['total']);
+		$lucro = $this->lucro($capitalAtual, $capital+$totalInvestimentosInativos['total']+$cotasAberto['total']);
 		$x = $lucro/($capital + $sumRendParciaisInv);
 		$dados = array('rendimento' => $x*100);
+		var_dump($cotasAberto);
 		var_dump($capitalAtual);
 		var_dump($capital);
 		var_dump($sumRendParciaisInv);
@@ -78,6 +80,11 @@ class Sistema_Controller extends CI_Controller {
 		# code...
 		$this->load->model('Investimento_model');
 		return $this->Investimento_model->getInvestimentosParciais();
+	}
+
+	public function getCotasAberto(){
+		$this->load->model('Cota_model');
+		return $this->Cota_model->getTotalCotas();
 	}
 
 	public function saques()

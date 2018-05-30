@@ -79,7 +79,7 @@ class Clientes_Controller extends CI_Controller {
 		$this->cadastrarContaSaque($contaSaque);
 		$this->cadastrarContaCliente($idcliente, $idusuario);
 	}
-
+	
 	public function existeUsuario($email){
 		return $this->Usuario_model->existeEmail($email);
 	}	
@@ -190,10 +190,15 @@ class Clientes_Controller extends CI_Controller {
 	{
 		# code...
 		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
-		$email = $this->input->post('email');
-		$nome = $this->input->post('nome');
-		$this->Cliente_model->updateDados($idusuario, $email, $nome);
-		$this->Usuario_model->updateDados($idusuario, $email);
+		$cliente = new Cliente();
+		$cliente->email = $this->input->post('email');
+		$cliente->nome = $this->input->post('nome');
+		$cliente->cpf = $this->input->post('cpf');
+		$cliente->telefone = $this->input->post('telefone');
+		$cliente->celular = $this->input->post('celular');
+		var_dump($cliente);
+		$this->Cliente_model->updateDados($idusuario, $cliente);
+		$this->Usuario_model->updateDados($idusuario, $cliente->email);
 		$this->session->set_flashdata('success', 'Dados atualizados com sucesso!');
 		redirect('Clientes_Controller/minhaConta');
 	}
@@ -206,4 +211,6 @@ class Clientes_Controller extends CI_Controller {
 			redirect('Clientes_Controller/index');
 		}
 	}
+
+	
 }

@@ -40,7 +40,7 @@ class Cliente_model extends CI_Model {
 		}
 
 		public function getCliente($idcliente){
-			$this->db->select('idcliente, nome, email, saldo, usuario_idusuario');
+			$this->db->select('idcliente, cpf, nome, telefone,celular, email, saldo, usuario_idusuario');
 			$this->db->from('cliente');
 			$this->db->join('conta', 'idcliente = cliente_idcliente');
 			$this->db->where('idcliente', $idcliente);
@@ -54,20 +54,24 @@ class Cliente_model extends CI_Model {
 			return $this->db->get()->row_array();
 		}
 
-		public function updateDados($idusuario, $email, $nome)
+		public function updateDados($idusuario, $cliente)
 		{
 			# code...
-			$this->db->set('email', $email);
-			$this->db->set('nome', $nome);
+			$this->db->set('email', $cliente->email);
+			$this->db->set('nome', $cliente->nome);
+			$this->db->set('telefone', $cliente->telefone);
+			$this->db->set('celular', $cliente->celular);
 			$this->db->where('usuario_idusuario', $idusuario);
 			$this->db->update('cliente');
 		}
 
-		public function updateDadosCliente($idcliente, $email, $nome)
+		public function updateDadosCliente($idcliente, $cliente)
 		{
 			# code...
-			$this->db->set('email', $email);
-			$this->db->set('nome', $nome);
+			$this->db->set('email', $cliente->email);
+			$this->db->set('nome', $cliente->nome);
+			$this->db->set('telefone', $cliente->telefone);
+			$this->db->set('celular', $cliente->celular);
 			$this->db->where('idcliente', $idcliente);
 			$this->db->update('cliente');
 		}

@@ -29,7 +29,7 @@
 	      </li>
 	      
 	      <li class="nav-item">
-	        <a class="nav-link" href="<?= base_url("index.php/Usuarios_Controller/logout")?>">Sair</a>
+	        <a class="nav-link" href="<?= base_url("index.php/Login_Controller/logout")?>">Sair</a>
 	      </li>
 	    </ul>
 	  </div>

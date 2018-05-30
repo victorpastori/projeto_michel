@@ -8,6 +8,7 @@ class Admin_Controller extends CI_Controller {
 		$this->isUsuarioLogado();
 		$this->isAdmin();
 		$this->load->library('ContaSaque');
+		$this->load->library('Cliente');
 		$this->load->model('Cliente_model');
 		$this->load->model('Cota_model');
 		$this->load->model('Conta_model');
@@ -148,11 +149,15 @@ class Admin_Controller extends CI_Controller {
 	{
 		# code...
 		$idcliente = $this->input->post('idCliente');
-		$email = $this->input->post('email');
-		$nome = $this->input->post('nome');
+		$cliente = new Cliente();
+		$cliente->email = $this->input->post('email');
+		$cliente->nome = $this->input->post('nome');
+		$cliente->cpf = $this->input->post('cpf');
+		$cliente->telefone = $this->input->post('telefone');
+		$cliente->celular = $this->input->post('celular');
 		$idusuario = $this->Cliente_model->getIDuserByCliente($idcliente);
-		$this->Cliente_model->updateDadosCliente($idcliente, $email, $nome);
-		$this->Usuario_model->updateDados($idusuario['usuario_idusuario'], $email);
+		$this->Cliente_model->updateDadosCliente($idcliente, $cliente);
+		$this->Usuario_model->updateDados($idusuario['usuario_idusuario'], $cliente->email);
 		$this->session->set_flashdata('success', 'Dados atualizados com sucesso!');
 		redirect('Admin_Controller/mostrarDadosCliente?cliente='.$idcliente);
 	}

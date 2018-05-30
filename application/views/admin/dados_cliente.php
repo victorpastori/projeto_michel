@@ -15,6 +15,22 @@
 		<label for="inputEmail">Email/Login</label>
     	<input type="email" class="form-control" name="email" id="inputEmail" aria-describedby="emailHelp" required value="<?= $cliente['email']?>" disabled>
   	</div>
+
+    <div class="form-group">
+    <label for="inputNome">CPF</label>
+      <input type="text" class="form-control" name="cpf" id="inputCpf" aria-describedby="emailHelp" required value="<?= $cliente['cpf']?>" disabled>
+      
+    </div>
+
+    <div class="form-group">
+    <label for="telefone">Telefone</label>
+    <input type="text" name="telefone" id="inputTelefone" class="form-control input-medium bfh-phone" data-format=" (dd) dddd-dddd" value="<?= $cliente['telefone']?>" disabled>
+    </div>
+    <div class="form-group">
+      <label for="telefone">Celular</label>
+      <input type="text" name="celular" id="inputCelular" class="form-control input-medium bfh-phone" data-format=" (dd) ddddd-dddd" value="<?= $cliente['celular']?>" disabled>
+    </div>
+    
   	<button type="submit" id="btnSalvar" class="btn btn-success" disabled>Salvar</button>
   	<input type="button" id="btnEditar" class="btn btn-primary" onclick="changeForm()" value="Editar">
   	<a href="<?= base_url("index.php/Admin_Controller/alterarSenhaCliente?idcliente=".$cliente['idcliente'])?>" class="btn btn-danger">Alterar Senha</a>
@@ -112,6 +128,8 @@
       document.getElementById('inputNome').disabled = false;
       document.getElementById('inputEmail').disabled = false;
       document.getElementById('btnSalvar').disabled = false;
+      document.getElementById('inputTelefone').disabled = false;
+      document.getElementById('inputCelular').disabled = false;
       document.getElementById('btnEditar').disabled = true;
     }
 

@@ -31,6 +31,12 @@ class Contas_Controller extends CI_Controller {
 		$idusuario = $this->session->userdata('usuario_logado')['idusuario'];
 		$conta = $this->Conta_model->getConta($idusuario);
 		$valorSaque = $this->input->post('valor');
+		if ($valorSaque<=0) {
+			# code...
+			$this->session->set_flashdata('erroSaque', 'Não é possível solicitar um valor de saque menor do que zero(0)');
+			redirect('Clientes_Controller/saque');
+
+		}
 		if($valorSaque > $conta['saldoSaque']){
 			$this->session->set_flashdata('erroSaque', 'Valor solicitado superior ao limite disponível! Valor disponível para saque: U$ '.number_format($conta['saldoSaque'], 2, ',', ','));
 			redirect('Clientes_Controller/saque');

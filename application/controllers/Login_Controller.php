@@ -1,13 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Login_Controller extends CI_Controller {
 
 	
 	public function index()
 	{	
 		$this->isUsuarioLogado();
 		//$this->load->view('public/index');
+	}
+
+	public function logout(){
+		$this->session->unset_userdata("usuario_logado");
+		$this->session->set_flashdata('success', 'Deslogado com sucesso!');
+		redirect('/');
 	}
 
 	public function isUsuarioLogado(){

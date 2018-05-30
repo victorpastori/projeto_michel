@@ -30,6 +30,7 @@
       <input type="password" id="inputSenha" name="senha" class="form-control" placeholder="Senha" required="">
       
       <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+      <a href="<?= base_url("index.php/Usuarios_Controller/novocliente")?>">Cadastre-se</a>
       <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
     </form>
 </body>
