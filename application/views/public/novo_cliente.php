@@ -24,13 +24,15 @@
 		<label for="inputEmail">E-mail</label>
 		<input class="form-control" type="email" name="email" id="inputEmail" required placeholder="Informe um e-mail válido">
 	</div>
-	<div class="form-group">
-		<label for="telefone">Telefone</label>
-		<input type="text" name="telefone" id="telefone" class="form-control input-medium bfh-phone" data-format=" (dd) dddd-dddd">
+	<div class="form-row">
+	<div class="col-3 form-group">
+		<label for="telefone">DDD</label>
+		<input type="text" name="telefone" id="telefone" class="form-control input-medium bfh-phone" data-format="ddd">
 	</div>
-	<div class="form-group">
+	<div class="col-9 form-group">
 		<label for="telefone">Celular</label>
-		<input type="text" name="celular" id="celular" class="form-control input-medium bfh-phone" data-format=" (dd) ddddd-dddd">
+		<input type="text" name="celular" id="celular" class="form-control input-medium bfh-phone" data-format=" ddddd-dddd">
+	</div>
 	</div>
 	<div class="form-group">
 		<label for="inputSenha">Senha</label>

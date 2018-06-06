@@ -4,7 +4,7 @@
       $this->load->view('cabecalhoAdmin');
     } ?>
 
-<form action="<?= base_url("index.php/Clientes_Controller/cadastrarContaSaque")?>" method="post">
+<form action="<?= base_url("index.php/Clientes_Controller/cadastrarContaSaqueCliente")?>" method="post">
 	<div class="row align-items-center">
 		<div class="col-9">
 	<div class="form-group">

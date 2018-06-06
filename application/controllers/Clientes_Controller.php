@@ -131,7 +131,7 @@ class Clientes_Controller extends CI_Controller {
 		$this->load->view('cliente/conta_saque', $dados);
 	}
 
-	/*public function cadastrarContaSaque()
+	public function cadastrarContaSaqueCliente()
 	{
 		# code...
 		$contaSaque = new ContaSaque();
@@ -140,11 +140,13 @@ class Clientes_Controller extends CI_Controller {
 		$contaSaque->agencia = $this->input->post('agencia');
 		$contaSaque->conta = $this->input->post('conta');
 		$contaSaque->tipo = $this->input->post('tipo');
+		$contaSaque->operacao = $this->input->post('operacao');
+		$contaSaque->digito = $this->input->post('digito');
 		$contaSaque->cliente_idcliente = $cliente['idcliente'];
 		$this->ContaSaque_model->cadastrarContaSaque($contaSaque);
 		redirect('Clientes_Controller/minhaConta');
 		
-	}*/
+	}
 
 	public function cadastrarContaSaque($contaSaque)
 	{

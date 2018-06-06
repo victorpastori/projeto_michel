@@ -27,4 +27,8 @@ class Login_Controller extends CI_Controller {
 			$this->load->view('public/index');
 		}
 	}
+
+	public function faq(){
+		$this->load->view('public/faq');
+	}
 }

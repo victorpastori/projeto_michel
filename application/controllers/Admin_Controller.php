@@ -57,11 +57,12 @@ class Admin_Controller extends CI_Controller {
 		$rendimentosBrutos = $this->Rendimento_model->getSumAllRendimentos();
 		$rendimentosAdminMensais = $this->Rendimento_model->getSumAllRendimentosAdmin($idusuario);
 		$comissoes = $this->Comissao_model->getComissoes();
+		$scalpins = $this->Movimento_model->getScalpindONormail();
 		//$rendimentosAdminMensais = array_merge($rendimentosAdminMensais, $comissoes);
 
 		$txAdm = $this->Sistema_model->getTxAdmCota();
 		
-		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'saldoSaqueAdmin' => $saldoSaqueAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes, 'comissoes' => $comissoes, 'rendimentosBrutos' => $rendimentosBrutos, 'rendimentosAdminMensais' => $rendimentosAdminMensais, 'saquesPendentes' => $saquesPendentes, 'txAdm' => $txAdm);
+		$dados = array('capitalTotal' =>$capitalTotal, 'capitalTotalAdmin' => $capitalTotalAdmin, 'saldoSaqueAdmin' => $saldoSaqueAdmin, 'movimentos' => $movimentos, 'cotas' => $cotas, 'rendimentos' => $rendimentos, 'rendimentosClientes' => $rendimentosClientes, 'comissoes' => $comissoes, 'rendimentosBrutos' => $rendimentosBrutos, 'rendimentosAdminMensais' => $rendimentosAdminMensais, 'saquesPendentes' => $saquesPendentes, 'txAdm' => $txAdm,'scalpins' => $scalpins);
 		$this->load->view('admin/index.php', $dados);
 	}
 

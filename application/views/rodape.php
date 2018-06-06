@@ -27,7 +27,7 @@
 
     function mostraOperacao(){
                 var tipo = document.getElementById("selectBanco").value;
-                if (tipo == 5) {
+                if (tipo == 6) {
                     document.getElementById('inputOperacao').disabled = false;
                     document.getElementById("inputOperacao").style.display = "block";
                     document.getElementById('lblOperacao').disabled = false;

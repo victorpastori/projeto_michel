@@ -217,7 +217,7 @@
 		  	<?php foreach ($comissoes as $index => $comissao) : ?>
 				<tr>
 			      <td><?= $comissao['month']?>/<?= $comissao['year']?></td>
-			      <td>$<?= number_format(($rendimentosAdminMensais[$index]['total']+ $comissao['total']),2, ',', ',')?></td>
+			      <td>$<?= number_format(($scalpins[$index]['total'] + $rendimentosAdminMensais[$index]['total']+ $comissao['total']),2, ',', ',')?></td>
 			    </tr>
 			<?php endforeach ?> 
 		  </tbody>
@@ -236,10 +236,10 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		  	<?php foreach ($rendimentosBrutos as $rendimentoBruto) : ?>
+		  	<?php foreach ($rendimentosBrutos as $index => $rendimentoBruto) : ?>
 				<tr>
 			      <td><?= $rendimentoBruto['month']?>/<?= $rendimentoBruto['year']?></td>
-			      <td>$<?= number_format(($rendimentoBruto['total']+$rendimentoBruto['totalComissao']),2, ',', ',')?></td>
+			      <td>$<?= number_format(($scalpins[$index]['total'] + $rendimentoBruto['total']+$rendimentoBruto['totalComissao']),2, ',', ',')?></td>
 			    </tr>
 			<?php endforeach ?> 
 		  </tbody>

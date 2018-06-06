@@ -23,12 +23,12 @@
     </div>
 
     <div class="form-group">
-    <label for="telefone">Telefone</label>
-    <input type="text" name="telefone" id="inputTelefone" class="form-control input-medium bfh-phone" data-format=" (dd) dddd-dddd" value="<?= $cliente['telefone']?>" disabled>
+    <label for="telefone">DDD</label>
+    <input type="text" name="telefone" id="inputTelefone" class="form-control input-medium bfh-phone" data-format="ddd" value="<?= $cliente['telefone']?>" disabled>
     </div>
     <div class="form-group">
       <label for="telefone">Celular</label>
-      <input type="text" name="celular" id="inputCelular" class="form-control input-medium bfh-phone" data-format=" (dd) ddddd-dddd" value="<?= $cliente['celular']?>" disabled>
+      <input type="text" name="celular" id="inputCelular" class="form-control input-medium bfh-phone" data-format="ddddd-dddd" value="<?= $cliente['celular']?>" disabled>
     </div>
     
   	<button type="submit" id="btnSalvar" class="btn btn-success" disabled>Salvar</button>

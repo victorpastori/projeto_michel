@@ -6,6 +6,17 @@ class Movimento_model extends CI_Model {
 		public function cadastrarMovimento($movimento){
 			$this->db->insert('movimento', $movimento);
 		}
+		public function getScalpindONormail()
+		{
+			# code...
+			$this->db->select('SUM(valor) as total, MONTH(data) as month, YEAR(data) as year ');
+			$this->db->from('movimento');
+			$this->db->where('conta_idconta = 1 and tipo_movimento_idtipo_movimento = 4');
+			$this->db->order_by('MONTH(data)', 'DESC');
+			$this->db->order_by('MONTH(year)', 'DESC');
+			$this->db->group_by('MONTH(data), YEAR(data)');
+			return $this->db->get()->result_array();
+		}
 
 		public function getAllMovimentos(){
 			$this->db->select('*');

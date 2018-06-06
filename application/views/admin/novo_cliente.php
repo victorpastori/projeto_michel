@@ -1,4 +1,5 @@
 <?php $this->load->view('cabecalhoAdmin'); ?>
+ 
 <h2>Cadastro de novo cliente</h2>
 <form action="<?= base_url("index.php/Clientes_Controller/cadastrarCliente")?>" method="post">
 	<div class="form-group">
@@ -16,12 +17,12 @@
 		<input class="form-control" type="email" name="email" id="inputEmail" required placeholder="Informe um e-mail válido">
 	</div>
 	<div class="form-group">
-		<label for="telefone">Telefone</label>
-		<input type="text" name="telefone" id="telefone" class="form-control input-medium bfh-phone" data-format=" (dd) dddd-dddd">
+		<label for="telefone">DDD</label>
+		<input type="text" name="telefone" id="telefone" class="form-control input-medium bfh-phone" data-format="ddd">
 	</div>
 	<div class="form-group">
 		<label for="telefone">Celular</label>
-		<input type="text" name="celular" id="celular" class="form-control input-medium bfh-phone" data-format=" (dd) ddddd-dddd">
+		<input type="text" name="celular" id="celular" class="form-control input-medium bfh-phone" data-format="ddddd-dddd">
 	</div>
 	<div class="form-group">
 		<label for="inputSenha">Senha</label>
@@ -76,6 +77,5 @@
 	
   	<button type="submit" class="btn btn-primary">Cadastrar Cliente</button>
 </form>
-
 <script language="JavaScript" src="<?= base_url('js/validaCPF.js')?>"></script>
 <?php $this->load->view('rodape'); ?>

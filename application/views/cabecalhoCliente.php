@@ -27,6 +27,10 @@
 	      <li class="nav-item">
 	        <a class="nav-link" href="<?= base_url("index.php/Clientes_Controller/minhaConta")?>">Minha Conta</a>
 	      </li>
+
+	      <li class="nav-item">
+	        <a class="nav-link" href="<?= base_url("index.php/Login_Controller/faq")?>">Perguntas Frequentes</a>
+	      </li>
 	      
 	      <li class="nav-item">
 	        <a class="nav-link" href="<?= base_url("index.php/Login_Controller/logout")?>">Sair</a>
